@@ -1,0 +1,334 @@
+
+<div id="forging-taper-tool">
+<style>
+#forging-taper-tool{--accent:#1BA597;--ink:#252525;--muted:#666;--border:#ddd;font:15px Arial,Helvetica,sans-serif;color:var(--ink);background:#fff;max-width:1050px;margin:auto;padding:20px}
+#forging-taper-tool *{box-sizing:border-box}
+#forging-taper-tool h2{font-size:25px;font-weight:400;margin:0 0 12px}
+#forging-taper-tool h3{font-size:17px;font-weight:500;margin:0 0 18px}
+#forging-taper-tool p{color:var(--muted);line-height:1.55}
+#forging-taper-tool .layout{display:grid;grid-template-columns:310px minmax(0,1fr);gap:25px}
+#forging-taper-tool .panel{border:1px solid var(--border);padding:22px;margin-bottom:20px}
+#forging-taper-tool label{display:block;margin:17px 0 7px;font-size:13px}
+#forging-taper-tool .pair{display:flex;gap:12px;align-items:center}
+#forging-taper-tool input[type=range]{flex:1;min-width:0;accent-color:var(--accent)}
+#forging-taper-tool input[type=number],#forging-taper-tool select{padding:9px;border:1px solid #bbb;border-radius:0;background:#fff;color:var(--ink);font:inherit}
+#forging-taper-tool input[type=number]{width:88px}
+#forging-taper-tool select{width:100%}
+#forging-taper-tool button{background:var(--accent);color:white;border:0;padding:12px 20px;margin-top:20px;cursor:pointer;font:inherit}
+#forging-taper-tool button:hover{filter:brightness(.88)}
+#forging-taper-tool .results{display:grid;grid-template-columns:1fr 1fr}
+#forging-taper-tool .metric{padding:15px 8px;border-bottom:1px solid var(--border)}
+#forging-taper-tool .metric span{display:block;font-size:12px;color:var(--muted)}
+#forging-taper-tool .metric strong{display:block;font-size:21px;font-weight:500;margin-top:6px;overflow-wrap:anywhere}
+#forging-taper-tool .metric.primary strong{color:var(--accent)}
+#forging-taper-tool svg{width:100%;height:auto;display:block}
+#forging-taper-tool .note{font-size:12px}
+#forging-taper-tool .warning{color:#a34e20}
+@media(max-width:720px){#forging-taper-tool .layout{grid-template-columns:1fr}#forging-taper-tool{padding:10px}}
+
+/* Educational introduction */
+#forging-taper-tool .ft-lesson{border:1px solid #d9e3e1;border-radius:8px;padding:22px;margin:18px 0 26px;background:#fff}
+#forging-taper-tool .ft-lesson h3{font-size:20px;font-weight:600;margin:0 0 12px}
+#forging-taper-tool .ft-lesson h4{font-size:16px;font-weight:600;margin:22px 0 8px}
+#forging-taper-tool .ft-lesson p{font-size:14px;line-height:1.6;margin:8px 0}
+#forging-taper-tool .ft-lesson .ft-eqn{background:#f2fbf9;border-left:3px solid #1BA597;padding:16px 12px;text-align:center;margin:12px 0;font-size:clamp(16px,3vw,22px);font-weight:600;overflow-x:auto}
+#forging-taper-tool .ft-lesson .ft-example{background:#f7f8f8;border-radius:6px;padding:12px 15px;margin:12px 0}
+#forging-taper-tool .ft-lesson details{border-top:1px solid #ddd;padding-top:14px;margin-top:20px}
+#forging-taper-tool .ft-lesson summary{cursor:pointer;font-weight:600;color:#167e75}
+#forging-taper-tool .ft-lesson .ft-muted{font-size:12px;color:#666}
+</style>
+
+<h2>Taper Calculator</h2>
+
+<section class="ft-lesson" aria-labelledby="ft-lesson-title">
+<h3 id="ft-lesson-title">How the Calculation Works</h3>
+<p>A forged taper changes cross-sectional area along its length. As steel is drawn out, the material is redistributed. Assuming no loss, the volume of the original stock equals the volume of the finished taper.</p>
+
+<h4>1. Calculate the starting cross-sectional area</h4>
+<p>For square or rectangular stock, multiply width by thickness:</p>
+<div class="ft-eqn">A<sub>starting</sub> = W × H</div>
+<p><strong>W</strong> = starting width; <strong>H</strong> = starting thickness; <strong>A</strong> = cross-sectional area.</p>
+
+<h4>2. Calculate the volume of the finished taper</h4>
+<p>If width and thickness each change uniformly (linearly) from the starting dimensions to the tip dimensions, the average cross-sectional area is:</p>
+<div class="ft-eqn">A<sub>average</sub> = (2WH + Wt<sub>h</sub> + Ht<sub>w</sub> + 2t<sub>w</sub>t<sub>h</sub>) ÷ 6</div>
+<p><strong>t<sub>w</sub></strong> = tip width; <strong>t<sub>h</sub></strong> = tip thickness. Multiply average area by finished taper length to obtain volume:</p>
+<div class="ft-eqn">V<sub>taper</sub> = A<sub>average</sub> × L<sub>taper</sub></div>
+<p>Unlike a uniform bar, a taper does not have the same area everywhere along its length.</p>
+
+<h4>3. Calculate the original stock required</h4>
+<p>Divide the finished taper volume by the starting cross-sectional area:</p>
+<div class="ft-eqn">L<sub>stock</sub> = V<sub>taper</sub> ÷ (W × H)</div>
+
+<div class="ft-example">
+<p><strong>Example:</strong> Forge 1" × 1" square stock into a 6" long taper ending at a ¼" × ¼" tip.</p>
+<p>Starting area: 1 × 1 = <strong>1 in²</strong></p>
+<p>Average taper area: (2 + 0.25 + 0.25 + 0.125) ÷ 6 = <strong>0.4375 in²</strong></p>
+<p>Finished volume: 0.4375 × 6 = <strong>2.625 in³</strong></p>
+<p>Original stock required: 2.625 ÷ 1 = <strong>2.625"</strong></p>
+</div>
+
+<details>
+<summary>Additional reference: point tapers, wedges, and material allowance</summary>
+
+<h4>4. Common taper relationships</h4>
+<p>For a four-sided square taper drawn to a point, both width and thickness reach zero at the tip:</p>
+<div class="ft-eqn">L<sub>stock</sub> = L<sub>taper</sub> ÷ 3</div>
+<p>For a wedge taper, where one dimension remains constant and the other decreases linearly to zero:</p>
+<div class="ft-eqn">L<sub>stock</sub> = L<sub>taper</sub> ÷ 2</div>
+<p>These simplified relationships apply only to the specified tip geometry.</p>
+
+<h4>5. Account for material allowance</h4>
+<p>Additional stock can be prepared for scale loss and cleanup:</p>
+<div class="ft-eqn">L<sub>prepare</sub> = L<sub>stock</sub> × (1 + P ÷ 100)</div>
+<p><strong>P</strong> = extra allowance percentage. For the example above, with 5% allowance:</p>
+<div class="ft-example"><p>2.625" × 1.05 = <strong>2.756"</strong> to prepare.</p></div>
+</details>
+
+<p class="ft-muted"><strong>Important:</strong> The model assumes a straight taper with width and thickness changing linearly, uniform starting stock, and conservation of volume. Real forging can introduce uneven deformation, scale loss, and dimensional variation.</p>
+</section>
+
+<p>Calculate the original stock required to forge a square, rectangular, or wedge-shaped taper. All dimensions are in inches.</p>
+
+<div class="layout">
+<section class="panel">
+<h3>Starting Stock</h3>
+
+<label>Starting width</label>
+<div class="pair">
+<input id="ft-w-r" type="range" min=".125" max="4" step=".025" value="1">
+<input id="ft-w" type="number" min=".001" step=".025" value="1">
+</div>
+
+<label>Starting thickness</label>
+<div class="pair">
+<input id="ft-h-r" type="range" min=".125" max="4" step=".025" value="1">
+<input id="ft-h" type="number" min=".001" step=".025" value="1">
+</div>
+
+<h3 style="margin-top:28px">Finished Tip</h3>
+
+<label>Tip width</label>
+<div class="pair">
+<input id="ft-tw-r" type="range" min="0" max="4" step=".025" value=".25">
+<input id="ft-tw" type="number" min="0" step=".025" value=".25">
+</div>
+
+<label>Tip thickness</label>
+<div class="pair">
+<input id="ft-th-r" type="range" min="0" max="4" step=".025" value=".25">
+<input id="ft-th" type="number" min="0" step=".025" value=".25">
+</div>
+
+<h3 style="margin-top:28px">Taper Length</h3>
+
+<label>Calculate from</label>
+<select id="ft-mode">
+<option value="finished">Desired finished taper length</option>
+<option value="original">Original stock length used</option>
+</select>
+
+<div id="ft-f-row">
+<label>Finished taper length</label>
+<div class="pair">
+<input id="ft-f-r" type="range" min=".25" max="36" step=".25" value="6">
+<input id="ft-f" type="number" min=".001" step=".25" value="6">
+</div>
+</div>
+
+<div id="ft-s-row" style="display:none">
+<label>Original stock length</label>
+<div class="pair">
+<input id="ft-s-r" type="range" min=".25" max="24" step=".25" value="3">
+<input id="ft-s" type="number" min=".001" step=".25" value="3">
+</div>
+</div>
+
+<label>Extra stock allowance (%)</label>
+<div class="pair">
+<input id="ft-a-r" type="range" min="0" max="30" step="1" value="5">
+<input id="ft-a" type="number" min="0" step="1" value="5">
+</div>
+
+<button id="ft-reset" type="button">Reset Calculator</button>
+<p class="note">For a wedge, leave one tip dimension equal to its starting dimension and reduce the other.</p>
+</section>
+
+<section>
+<div class="panel">
+<h3>Interactive Taper Visualization</h3>
+
+<p class="note">Side View — Thickness</p>
+<svg viewBox="0 0 600 190" xmlns="http://www.w3.org/2000/svg">
+<polygon id="ft-side-shape" points="60,40 540,85 540,105 60,150" fill="#c6c6c6" stroke="#333" stroke-width="1.5"/>
+<line id="ft-side-center" x1="60" y1="95" x2="540" y2="95" stroke="#777" stroke-dasharray="6 5"/>
+<text id="ft-side-label" x="20" y="20" fill="#333" font-size="13">Side View</text>
+</svg>
+
+<p class="note">Top View — Width</p>
+<svg viewBox="0 0 600 190" xmlns="http://www.w3.org/2000/svg">
+<polygon id="ft-top-shape" points="60,40 540,85 540,105 60,150" fill="#c6c6c6" stroke="#333" stroke-width="1.5"/>
+<line id="ft-top-center" x1="60" y1="95" x2="540" y2="95" stroke="#777" stroke-dasharray="6 5"/>
+<text id="ft-top-label" x="20" y="20" fill="#333" font-size="13">Top View</text>
+</svg>
+
+<p class="note">Cross-Section View — Starting Stock and Finished Tip</p>
+<svg viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg">
+<text x="150" y="24" text-anchor="middle" fill="#333" font-size="14">Starting Stock</text>
+<text x="450" y="24" text-anchor="middle" fill="#333" font-size="14">Finished Tip</text>
+<line x1="300" y1="32" x2="300" y2="215" stroke="#ddd"/>
+<rect id="ft-cross-start" x="100" y="70" width="100" height="100" fill="#c6c6c6" stroke="#333" stroke-width="1.5"/>
+<rect id="ft-cross-tip" x="425" y="107.5" width="25" height="25" fill="#c6c6c6" stroke="#333" stroke-width="1.5"/>
+<text id="ft-cross-start-label" x="150" y="224" text-anchor="middle" fill="#555" font-size="13">1.000&quot; × 1.000&quot;</text>
+<text id="ft-cross-tip-label" x="450" y="224" text-anchor="middle" fill="#555" font-size="13">0.250&quot; × 0.250&quot;</text>
+</svg>
+
+<p class="note">Cross-sections use the same scale, showing actual relative width and thickness. A zero-sized tip appears as a line or point.</p>
+<p class="note">Side and top views use one proportional scale. All drawings automatically fit their available space.</p>
+<p id="ft-warning" class="warning"></p>
+</div>
+
+<div class="panel">
+<h3>Calculated Results</h3>
+<div class="results">
+<div class="metric primary"><span>Stock to prepare, including allowance</span><strong id="ft-required">—</strong></div>
+<div class="metric"><span>Theoretical original stock length</span><strong id="ft-original">—</strong></div>
+<div class="metric"><span>Finished taper length</span><strong id="ft-length">—</strong></div>
+<div class="metric"><span>Finished taper volume</span><strong id="ft-volume">—</strong></div>
+<div class="metric"><span>Original cross-sectional area</span><strong id="ft-area">—</strong></div>
+<div class="metric"><span>Length increase factor</span><strong id="ft-factor">—</strong></div>
+</div>
+<p class="note">Assumes width and thickness vary linearly along the taper and material volume is conserved. Results are theoretical and do not include scale loss unless added through the allowance.</p>
+</div>
+</section>
+</div>
+
+<script>
+(function(){
+"use strict";
+var root=document.getElementById("forging-taper-tool");
+if(!root)return;
+
+function el(id){return root.querySelector("#ft-"+id)}
+function num(id){return parseFloat(el(id).value)}
+function inch(value){return value.toFixed(3)+'"'}
+
+var defaults={w:1,h:1,tw:.25,th:.25,f:6,s:3,a:5};
+
+Object.keys(defaults).forEach(function(key){
+ var number=el(key),slider=el(key+"-r");
+ slider.addEventListener("input",function(){
+  number.value=slider.value;
+  calculate();
+ });
+ number.addEventListener("input",function(){
+  var value=parseFloat(number.value);
+  if(isFinite(value))slider.value=value;
+  calculate();
+ });
+});
+
+function updateMode(){
+ var finished=el("mode").value==="finished";
+ el("f-row").style.display=finished?"block":"none";
+ el("s-row").style.display=finished?"none":"block";
+}
+
+el("mode").addEventListener("change",function(){
+ updateMode();
+ calculate();
+});
+
+el("reset").addEventListener("click",function(){
+ Object.keys(defaults).forEach(function(key){
+  el(key).value=defaults[key];
+  el(key+"-r").value=defaults[key];
+ });
+ el("mode").value="finished";
+ updateMode();
+ calculate();
+});
+
+function drawShape(shapeId,centerId,startSize,tipSize,x1,x2,scale){
+ var y=95;
+ var halfStart=startSize*scale/2;
+ var halfTip=tipSize*scale/2;
+ var points=[
+  [x1,y-halfStart],
+  [x2,y-halfTip],
+  [x2,y+halfTip],
+  [x1,y+halfStart]
+ ];
+ el(shapeId).setAttribute("points",points.map(function(p){
+  return p.join(",");
+ }).join(" "));
+ el(centerId).setAttribute("x2",x2);
+}
+
+function drawCrossSection(id,width,height,cx,cy,scale){
+ var r=el(id);
+ r.setAttribute("x",cx-width*scale/2);
+ r.setAttribute("y",cy-height*scale/2);
+ r.setAttribute("width",width*scale);
+ r.setAttribute("height",height*scale);
+}
+
+function calculate(){
+ var W=num("w"),H=num("h"),TW=num("tw"),TH=num("th"),A=num("a");
+ var finishedMode=el("mode").value==="finished";
+ var inputLength=finishedMode?num("f"):num("s");
+
+ var valid=W>0&&H>0&&TW>=0&&TH>=0&&TW<=W&&TH<=H&&
+  inputLength>0&&A>=0&&
+  [W,H,TW,TH,inputLength,A].every(isFinite);
+
+ if(!valid){
+  el("warning").textContent=
+   "Enter valid dimensions. Tip width and thickness must not exceed their starting dimensions.";
+  ["required","original","length","volume","area","factor"].forEach(function(key){
+   el(key).textContent="—";
+  });
+  return;
+ }
+
+ el("warning").textContent="";
+
+ var dW=TW-W,dH=TH-H;
+ var averageArea=W*H+(W*dH+H*dW)/2+dW*dH/3;
+ var originalArea=W*H;
+ var stockRatio=averageArea/originalArea;
+
+ var finishedLength=finishedMode?inputLength:inputLength/stockRatio;
+ var originalLength=finishedMode?inputLength*stockRatio:inputLength;
+ var volume=finishedLength*averageArea;
+ var preparedLength=originalLength*(1+A/100);
+
+ el("required").textContent=inch(preparedLength);
+ el("original").textContent=inch(originalLength);
+ el("length").textContent=inch(finishedLength);
+ el("volume").textContent=volume.toFixed(3)+" in³";
+ el("area").textContent=originalArea.toFixed(3)+" in²";
+ el("factor").textContent=(1/stockRatio).toFixed(3)+"×";
+
+ var scale=Math.min(480/finishedLength,140/Math.max(W,H));
+ var x1=60,x2=x1+finishedLength*scale;
+
+ drawShape("side-shape","side-center",H,TH,x1,x2,scale);
+ drawShape("top-shape","top-center",W,TW,x1,x2,scale);
+
+ el("side-label").textContent="Thickness: "+inch(H)+" to "+inch(TH);
+ el("top-label").textContent="Width: "+inch(W)+" to "+inch(TW);
+
+ var crossScale=135/Math.max(W,H);
+ drawCrossSection("cross-start",W,H,150,115,crossScale);
+ drawCrossSection("cross-tip",TW,TH,450,115,crossScale);
+
+ el("cross-start-label").textContent=inch(W)+" × "+inch(H);
+ el("cross-tip-label").textContent=inch(TW)+" × "+inch(TH);
+}
+
+updateMode();
+calculate();
+})();
+</script>
+</div>
