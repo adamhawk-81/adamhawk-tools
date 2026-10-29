@@ -1,44 +1,49 @@
-
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#438691"><meta name="description" content="Calculate forging stock required for square, rectangular, and wedge-shaped tapers."><title>Taper Forging Calculator | Adam Hawk Tools</title><style>*{box-sizing:border-box}body{margin:0;background:#fff;color:#263338;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.55}a{color:inherit}header{border-bottom:3px solid #438691}.header-inner{max-width:1220px;margin:auto;padding:21px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}.brand{font-size:19px;font-weight:750;letter-spacing:.075em;text-decoration:none;line-height:1.3}.brand span{display:block;font-size:11px;font-weight:500;letter-spacing:.15em;color:#62767c;margin-top:4px}.topnav{display:flex;gap:22px;align-items:center;flex-wrap:wrap}.topnav a{font-size:13px;text-decoration:none;font-weight:600;color:#3d5055}.topnav a:hover{color:#438691}footer{border-top:1px solid #d5e0e2;padding:24px 28px 35px;color:#687a80;font-size:12px}.footer-inner{max-width:1164px;margin:auto;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}footer a{color:#438691;text-decoration:none}@media(max-width:600px){.header-inner{padding:19px;gap:12px}.topnav{gap:14px}}</style></head><body><header><div class="header-inner"><a class="brand" href="/">ADAM HAWK<span>DESIGN & FABRICATION TOOLS</span></a><nav class="topnav"><a href="/">← All Tools</a><a href="https://adamhawk.com" target="_blank" rel="noopener">Artist Website ↗</a></nav></div></header>
 <div id="forging-taper-tool">
 <style>
-#forging-taper-tool{--accent:#1BA597;--ink:#252525;--muted:#666;--border:#ddd;font:15px Arial,Helvetica,sans-serif;color:var(--ink);background:#fff;max-width:1050px;margin:auto;padding:20px}
+#forging-taper-tool{--accent:#438691;--ink:#263338;--muted:#62767c;--border:#d5e0e2;--dark:#101518;font:15px "Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--ink);background:#fff;max-width:1220px;margin:auto;padding:30px 28px 65px}
 #forging-taper-tool *{box-sizing:border-box}
-#forging-taper-tool h2{font-size:25px;font-weight:400;margin:0 0 12px}
-#forging-taper-tool h3{font-size:17px;font-weight:500;margin:0 0 18px}
-#forging-taper-tool p{color:var(--muted);line-height:1.55}
-#forging-taper-tool .layout{display:grid;grid-template-columns:310px minmax(0,1fr);gap:25px}
-#forging-taper-tool .panel{border:1px solid var(--border);padding:22px;margin-bottom:20px}
-#forging-taper-tool label{display:block;margin:17px 0 7px;font-size:13px}
+#forging-taper-tool h2{font-size:25px;font-weight:650;margin:0 0 12px}
+#forging-taper-tool h3{font-size:17px;font-weight:700;margin:0 0 18px;color:#263338}
+#forging-taper-tool p{color:var(--muted);line-height:1.6}
+#forging-taper-tool .tool-intro{padding:25px 0 27px;border-bottom:1px solid var(--border);margin-bottom:25px}
+#forging-taper-tool .tool-intro .eyebrow{color:var(--accent);font-size:11px;font-weight:750;letter-spacing:.17em;margin:0 0 11px}
+#forging-taper-tool .tool-intro h1{font-size:clamp(31px,5vw,49px);font-weight:650;letter-spacing:-.04em;line-height:1.13;margin:0}
+#forging-taper-tool .tool-intro h1 span{color:var(--accent)}
+#forging-taper-tool .tool-intro>p:last-child{max-width:720px;margin:15px 0 0}
+#forging-taper-tool .layout{display:grid;grid-template-columns:330px minmax(0,1fr);gap:22px;align-items:start}
+#forging-taper-tool .panel{border:1px solid var(--border);padding:22px;margin-bottom:20px;background:#fff}
+#forging-taper-tool label{display:block;margin:17px 0 7px;font-size:13px;font-weight:600}
 #forging-taper-tool .pair{display:flex;gap:12px;align-items:center}
 #forging-taper-tool input[type=range]{flex:1;min-width:0;accent-color:var(--accent)}
-#forging-taper-tool input[type=number],#forging-taper-tool select{padding:9px;border:1px solid #bbb;border-radius:0;background:#fff;color:var(--ink);font:inherit}
-#forging-taper-tool input[type=number]{width:88px}
+#forging-taper-tool input[type=number],#forging-taper-tool select{padding:9px;border:1px solid #c9d6d9;border-radius:3px;background:#fff;color:var(--ink);font:inherit}
+#forging-taper-tool input[type=number]{width:90px}
 #forging-taper-tool select{width:100%}
-#forging-taper-tool button{background:var(--accent);color:white;border:0;padding:12px 20px;margin-top:20px;cursor:pointer;font:inherit}
-#forging-taper-tool button:hover{filter:brightness(.88)}
+#forging-taper-tool input:focus-visible,#forging-taper-tool select:focus-visible,#forging-taper-tool button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#forging-taper-tool button{background:var(--accent);color:white;border:1px solid var(--accent);border-radius:3px;padding:12px 18px;margin-top:20px;cursor:pointer;font:inherit;font-weight:650}
+#forging-taper-tool button:hover{background:#316a73}
 #forging-taper-tool .results{display:grid;grid-template-columns:1fr 1fr}
-#forging-taper-tool .metric{padding:15px 8px;border-bottom:1px solid var(--border)}
+#forging-taper-tool .metric{padding:15px 10px;border-bottom:1px solid var(--border)}
 #forging-taper-tool .metric span{display:block;font-size:12px;color:var(--muted)}
-#forging-taper-tool .metric strong{display:block;font-size:21px;font-weight:500;margin-top:6px;overflow-wrap:anywhere}
+#forging-taper-tool .metric strong{display:block;font-size:21px;font-weight:650;margin-top:6px;overflow-wrap:anywhere}
 #forging-taper-tool .metric.primary strong{color:var(--accent)}
-#forging-taper-tool svg{width:100%;height:auto;display:block}
+#forging-taper-tool svg{width:100%;height:auto;display:block;background:var(--dark);border:1px solid #334147;border-radius:3px;margin:8px 0 16px}
 #forging-taper-tool .note{font-size:12px}
+#forging-taper-tool .viz-label{font-size:12px;font-weight:700;margin:16px 0 6px}
 #forging-taper-tool .warning{color:#a34e20}
-@media(max-width:720px){#forging-taper-tool .layout{grid-template-columns:1fr}#forging-taper-tool{padding:10px}}
-
-/* Educational introduction */
-#forging-taper-tool .ft-lesson{border:1px solid #d9e3e1;border-radius:8px;padding:22px;margin:18px 0 26px;background:#fff}
-#forging-taper-tool .ft-lesson h3{font-size:20px;font-weight:600;margin:0 0 12px}
-#forging-taper-tool .ft-lesson h4{font-size:16px;font-weight:600;margin:22px 0 8px}
+#forging-taper-tool .ft-lesson{border:1px solid var(--border);border-radius:3px;padding:23px;margin:18px 0 26px;background:#f7fafb}
+#forging-taper-tool .ft-lesson h3{font-size:20px;font-weight:700;margin:0 0 12px}
+#forging-taper-tool .ft-lesson h4{font-size:16px;font-weight:700;margin:22px 0 8px}
 #forging-taper-tool .ft-lesson p{font-size:14px;line-height:1.6;margin:8px 0}
-#forging-taper-tool .ft-lesson .ft-eqn{background:#f2fbf9;border-left:3px solid #1BA597;padding:16px 12px;text-align:center;margin:12px 0;font-size:clamp(16px,3vw,22px);font-weight:600;overflow-x:auto}
-#forging-taper-tool .ft-lesson .ft-example{background:#f7f8f8;border-radius:6px;padding:12px 15px;margin:12px 0}
-#forging-taper-tool .ft-lesson details{border-top:1px solid #ddd;padding-top:14px;margin-top:20px}
-#forging-taper-tool .ft-lesson summary{cursor:pointer;font-weight:600;color:#167e75}
-#forging-taper-tool .ft-lesson .ft-muted{font-size:12px;color:#666}
+#forging-taper-tool .ft-lesson .ft-eqn{background:#eaf3f4;border-left:3px solid var(--accent);padding:16px 12px;text-align:center;margin:12px 0;font-size:clamp(16px,3vw,22px);font-weight:600;overflow-x:auto}
+#forging-taper-tool .ft-lesson .ft-example{background:white;border:1px solid var(--border);border-radius:3px;padding:12px 15px;margin:12px 0}
+#forging-taper-tool .ft-lesson details{border-top:1px solid var(--border);padding-top:14px;margin-top:20px}
+#forging-taper-tool .ft-lesson summary{cursor:pointer;font-weight:650;color:#316a73}
+#forging-taper-tool .ft-lesson .ft-muted{font-size:12px;color:var(--muted)}
+@media(max-width:780px){#forging-taper-tool .layout{grid-template-columns:1fr}#forging-taper-tool{padding:22px 18px 45px}#forging-taper-tool .panel{padding:17px}}
 </style>
 
-<h2>Taper Calculator</h2>
+<div class="tool-intro"><p class="eyebrow">FORGING CALCULATORS / TAPER GEOMETRY</p><h1>Taper Forging <span>Calculator</span></h1><p>Calculate the stock required for square, rectangular, and wedge-shaped tapers using volume-conserving geometry.</p></div>
 
 <section class="ft-lesson" aria-labelledby="ft-lesson-title">
 <h3 id="ft-lesson-title">How the Calculation Works</h3>
@@ -158,29 +163,29 @@
 <div class="panel">
 <h3>Interactive Taper Visualization</h3>
 
-<p class="note">Side View — Thickness</p>
+<p class="note viz-label">Side View — Thickness</p>
 <svg viewBox="0 0 600 190" xmlns="http://www.w3.org/2000/svg">
-<polygon id="ft-side-shape" points="60,40 540,85 540,105 60,150" fill="#c6c6c6" stroke="#333" stroke-width="1.5"/>
-<line id="ft-side-center" x1="60" y1="95" x2="540" y2="95" stroke="#777" stroke-dasharray="6 5"/>
-<text id="ft-side-label" x="20" y="20" fill="#333" font-size="13">Side View</text>
+<polygon id="ft-side-shape" points="60,40 540,85 540,105 60,150" fill="#438691" stroke="#9dc8d0" stroke-width="1.5"/>
+<line id="ft-side-center" x1="60" y1="95" x2="540" y2="95" stroke="#76979f" stroke-dasharray="6 5"/>
+<text id="ft-side-label" x="20" y="20" fill="#d4e5e8" font-size="13">Side View</text>
 </svg>
 
-<p class="note">Top View — Width</p>
+<p class="note viz-label">Top View — Width</p>
 <svg viewBox="0 0 600 190" xmlns="http://www.w3.org/2000/svg">
-<polygon id="ft-top-shape" points="60,40 540,85 540,105 60,150" fill="#c6c6c6" stroke="#333" stroke-width="1.5"/>
-<line id="ft-top-center" x1="60" y1="95" x2="540" y2="95" stroke="#777" stroke-dasharray="6 5"/>
-<text id="ft-top-label" x="20" y="20" fill="#333" font-size="13">Top View</text>
+<polygon id="ft-top-shape" points="60,40 540,85 540,105 60,150" fill="#438691" stroke="#9dc8d0" stroke-width="1.5"/>
+<line id="ft-top-center" x1="60" y1="95" x2="540" y2="95" stroke="#76979f" stroke-dasharray="6 5"/>
+<text id="ft-top-label" x="20" y="20" fill="#d4e5e8" font-size="13">Top View</text>
 </svg>
 
-<p class="note">Cross-Section View — Starting Stock and Finished Tip</p>
+<p class="note viz-label">Cross-Section View — Starting Stock and Finished Tip</p>
 <svg viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg">
-<text x="150" y="24" text-anchor="middle" fill="#333" font-size="14">Starting Stock</text>
-<text x="450" y="24" text-anchor="middle" fill="#333" font-size="14">Finished Tip</text>
-<line x1="300" y1="32" x2="300" y2="215" stroke="#ddd"/>
-<rect id="ft-cross-start" x="100" y="70" width="100" height="100" fill="#c6c6c6" stroke="#333" stroke-width="1.5"/>
-<rect id="ft-cross-tip" x="425" y="107.5" width="25" height="25" fill="#c6c6c6" stroke="#333" stroke-width="1.5"/>
-<text id="ft-cross-start-label" x="150" y="224" text-anchor="middle" fill="#555" font-size="13">1.000&quot; × 1.000&quot;</text>
-<text id="ft-cross-tip-label" x="450" y="224" text-anchor="middle" fill="#555" font-size="13">0.250&quot; × 0.250&quot;</text>
+<text x="150" y="24" text-anchor="middle" fill="#d4e5e8" font-size="14">Starting Stock</text>
+<text x="450" y="24" text-anchor="middle" fill="#d4e5e8" font-size="14">Finished Tip</text>
+<line x1="300" y1="32" x2="300" y2="215" stroke="#40535a"/>
+<rect id="ft-cross-start" x="100" y="70" width="100" height="100" fill="#438691" stroke="#9dc8d0" stroke-width="1.5"/>
+<rect id="ft-cross-tip" x="425" y="107.5" width="25" height="25" fill="#438691" stroke="#9dc8d0" stroke-width="1.5"/>
+<text id="ft-cross-start-label" x="150" y="224" text-anchor="middle" fill="#d4e5e8" font-size="13">1.000&quot; × 1.000&quot;</text>
+<text id="ft-cross-tip-label" x="450" y="224" text-anchor="middle" fill="#d4e5e8" font-size="13">0.250&quot; × 0.250&quot;</text>
 </svg>
 
 <p class="note">Cross-sections use the same scale, showing actual relative width and thickness. A zero-sized tip appears as a line or point.</p>
@@ -332,3 +337,4 @@ calculate();
 })();
 </script>
 </div>
+<footer><div class="footer-inner"><span>© <span id="year">2026</span> Adam Hawk · Design & Fabrication Tools</span><a href="/">← Back to All Tools</a></div></footer><script>document.getElementById('year').textContent=new Date().getFullYear()</script></body></html>
