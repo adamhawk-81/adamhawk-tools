@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="#438691" name="theme-color"/><meta content="Estimate changes in stock dimensions during uniform or localized upsetting." name="description"/><title>Forging Upsetting Calculator | Adam Hawk Tools</title><style>*{box-sizing:border-box}body{margin:0;background:#fff;color:#263338;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.55}a{color:inherit}header{border-bottom:3px solid #438691}.header-inner{max-width:1220px;margin:auto;padding:21px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}.brand{font-size:19px;font-weight:750;letter-spacing:.075em;text-decoration:none;line-height:1.3}.brand span{display:block;font-size:11px;font-weight:500;letter-spacing:.15em;color:#62767c;margin-top:4px}.topnav{display:flex;gap:22px;align-items:center;flex-wrap:wrap}.topnav a{font-size:13px;text-decoration:none;font-weight:600;color:#3d5055}.topnav a:hover{color:#438691}footer{border-top:1px solid #d5e0e2;padding:24px 28px 35px;color:#687a80;font-size:12px}.footer-inner{max-width:1164px;margin:auto;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}footer a{color:#438691;text-decoration:none}@media(max-width:600px){.header-inner{padding:19px;gap:12px}.topnav{gap:14px}}</style><style>
+
+/* Industrial site design: visual-only refinement, October 2026 */
+header{position:relative;border-bottom:3px solid #438691}
+.header-inner:before{content:"";position:absolute;left:12px;top:19px;bottom:19px;width:4px;background:#438691;border-radius:8px}
+.brand{font-weight:800}
+#upset-tool .tool-intro{padding-top:26px;border-bottom:4px solid #293d43}
+#upset-tool .tool-intro .eyebrow{position:relative;display:inline-block;padding-left:17px;color:#365c63;font-weight:800}
+#upset-tool .tool-intro .eyebrow:before{content:"";position:absolute;left:0;top:1px;bottom:1px;width:5px;background:#438691;border-radius:5px}
+#upset-tool .tool-intro h1{font-weight:800;letter-spacing:-.052em}
+#upset-tool .panel{border:1px solid #aebec1;border-radius:13px 13px 0 0;overflow:hidden;background:#fdfefe}
+#upset-tool .panel h2{font-weight:800;color:#293e44;position:relative;padding-left:15px}
+#upset-tool .panel h2:before{content:"";position:absolute;left:0;top:3px;bottom:3px;width:4px;border-radius:6px;background:#438691}
+#upset-tool button{font-weight:800;border-width:2px}
+#upset-tool svg{border-bottom:4px solid #438691;border-radius:11px 11px 0 0;background:#172126}
+#upset-tool .metric strong{font-weight:800}
+#upset-tool .ft-lesson{border:1px solid #aebec1;border-radius:13px 13px 0 0;background:#f7fafb}
+#upset-tool .ft-lesson h3{font-weight:800;color:#293e44}
+#upset-tool .ft-lesson .ft-eqn{border-left:5px solid #438691;border-radius:0 11px 0 0}
+#upset-tool .ft-lesson .ft-example{border-color:#aebec1;border-radius:9px 9px 0 0}
+footer{border-top:5px solid #293d43}
+@media(max-width:600px){.header-inner:before{left:5px;top:16px;bottom:16px}}
+
+</style>
+<style id="site-spacing-refinement">@media(min-width:781px){#upset-tool{max-width:1320px;padding:44px clamp(44px,5vw,82px) 86px}.header-inner{max-width:1320px;padding-left:clamp(44px,5vw,82px);padding-right:clamp(44px,5vw,82px)}.footer-inner{max-width:1156px}}@media(max-width:780px){#upset-tool{padding:28px 24px 60px}.header-inner{padding-left:24px;padding-right:24px}}@media(max-width:440px){#upset-tool{padding:24px 20px 52px}.header-inner{padding-left:20px;padding-right:20px}}</style><style id="lesson-layout-experiment">#upset-tool .ft-lesson{background:#fff;border:0;border-top:4px solid #293d43;border-radius:0;padding:30px 0 20px;margin-top:38px}#upset-tool .ft-lesson h3{font-size:clamp(23px,3vw,31px);letter-spacing:-.025em;margin-bottom:20px}#upset-tool .ft-lesson h4{font-size:15px;letter-spacing:.015em;padding:18px 0 12px;border-top:1px solid #cbd8da;margin-top:28px}#upset-tool .ft-lesson h4:before{content:"";display:inline-block;width:5px;height:19px;background:#438691;border-radius:8px;vertical-align:-4px;margin-right:12px}#upset-tool .ft-lesson .ft-eqn{background:#f1f6f6;border-left:4px solid #438691;text-align:left;padding:22px 24px;font-weight:650}#upset-tool .ft-lesson .ft-example{background:#fff;border:1px solid #cbd8da;border-top:4px solid #438691;padding:22px 25px;border-radius:0}</style><style id="scroll-reference-curves">
+/* Approved master design system panel curves */
+#upset-tool .ft-lesson {
+  background:#f7f9fa !important;
+  border:1px solid #c8d9dc !important;
+  border-radius:26px 26px 0 0 !important;
+  padding:clamp(25px,4.5vw,56px) !important;
+  margin:48px 0 34px !important;
+}
+#upset-tool .ft-lesson .ft-eqn {
+  background:#eef3f4 !important;
+  border-left:5px solid #438691 !important;
+  border-radius:0 !important;
+}
+#upset-tool .ft-lesson .ft-example {
+  border-radius:18px 18px 0 0 !important;
+}
+#upset-tool .panel {
+  border:1px solid #c8d9dc !important;
+  border-radius:24px 24px 0 0 !important;
+  background:#f9fbfb !important;
+}
+@media(max-width:600px){#upset-tool .ft-lesson{border-radius:20px 20px 0 0 !important}}
+</style></head><body><header><div class="header-inner"><a class="brand" href="/">ADAM HAWK<span>DESIGN &amp; FABRICATION TOOLS</span></a><nav class="topnav"><a href="/">← All Tools</a><a href="https://adamhawk.com" rel="noopener" target="_blank">Artist Website ↗</a></nav></div></header>
+<div id="upset-tool"><style>
+/* Upsetting-specific elements: preserve original canvas and JavaScript. */
+#upset-tool canvas{display:block;width:100%;height:auto;max-width:100%;background:#101518;border:1px solid #334147;border-bottom:4px solid #438691;border-radius:11px 11px 0 0;margin:8px 0 16px}
+#upset-tool .legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:10px}
+#upset-tool .key{display:inline-block;width:16px;height:10px;margin-right:6px;vertical-align:middle}
+#upset-tool .ft-lesson .ft-example{margin:12px 0}
+#upset-tool .panel h2{font-size:25px;font-weight:800;color:#293e44;position:relative;padding-left:15px;margin:0 0 18px}
+#upset-tool .panel h2:before{content:"";position:absolute;left:0;top:3px;bottom:3px;width:4px;border-radius:6px;background:#438691}
+#upset-tool .panel button+button{margin-left:8px}
+#upset-tool .warning{color:#a34e20}
+#upset-tool .panel{min-width:0}
+#upset-tool .ft-lesson .ft-eqn{text-align:left}
+#upset-tool .ft-lesson .ft-example{border-top:4px solid #438691}
+@media(max-width:600px){#upset-tool .panel button+button{margin-left:0}}
+</style><style>
+#upset-tool{--accent:#438691;--ink:#263338;--muted:#62767c;--border:#d5e0e2;--dark:#101518;font:15px "Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--ink);background:#fff;max-width:1220px;margin:auto;padding:30px 28px 65px}
+#upset-tool *{box-sizing:border-box}
+#upset-tool h2{font-size:25px;font-weight:650;margin:0 0 12px}
+#upset-tool h3{font-size:17px;font-weight:700;margin:0 0 18px;color:#263338}
+#upset-tool p{color:var(--muted);line-height:1.6}
+#upset-tool .tool-intro{padding:25px 0 27px;border-bottom:1px solid var(--border);margin-bottom:25px}
+#upset-tool .tool-intro .eyebrow{color:var(--accent);font-size:11px;font-weight:750;letter-spacing:.17em;margin:0 0 11px}
+#upset-tool .tool-intro h1{font-size:clamp(31px,5vw,49px);font-weight:650;letter-spacing:-.04em;line-height:1.13;margin:0}
+#upset-tool .tool-intro h1 span{color:var(--accent)}
+#upset-tool .tool-intro>p:last-child{max-width:720px;margin:15px 0 0}
+#upset-tool .layout{display:grid;grid-template-columns:330px minmax(0,1fr);gap:22px;align-items:start}
+#upset-tool .panel{border:1px solid var(--border);padding:22px;margin-bottom:20px;background:#fff}
+#upset-tool label{display:block;margin:17px 0 7px;font-size:13px;font-weight:600}
+#upset-tool .pair{display:flex;gap:12px;align-items:center}
+#upset-tool input[type=range]{flex:1;min-width:0;accent-color:var(--accent)}
+#upset-tool input[type=number],#upset-tool select{padding:9px;border:1px solid #c9d6d9;border-radius:3px;background:#fff;color:var(--ink);font:inherit}
+#upset-tool input[type=number]{width:90px}
+#upset-tool select{width:100%}
+#upset-tool input:focus-visible,#upset-tool select:focus-visible,#upset-tool button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#upset-tool button{background:var(--accent);color:white;border:1px solid var(--accent);border-radius:3px;padding:12px 18px;margin-top:20px;cursor:pointer;font:inherit;font-weight:650}
+#upset-tool button:hover{background:#316a73}
+#upset-tool .results{display:grid;grid-template-columns:1fr 1fr}
+#upset-tool .metric{padding:15px 10px;border-bottom:1px solid var(--border)}
+#upset-tool .metric span{display:block;font-size:12px;color:var(--muted)}
+#upset-tool .metric strong{display:block;font-size:21px;font-weight:650;margin-top:6px;overflow-wrap:anywhere}
+#upset-tool .metric.primary strong{color:var(--accent)}
+#upset-tool svg{width:100%;height:auto;display:block;background:var(--dark);border:1px solid #334147;border-radius:3px;margin:8px 0 16px}
+#upset-tool .note{font-size:12px}
+#upset-tool .viz-label{font-size:12px;font-weight:700;margin:16px 0 6px}
+#upset-tool .warning{color:#a34e20}
+#upset-tool .ft-lesson{border:1px solid var(--border);border-radius:3px;padding:23px;margin:18px 0 26px;background:#f7fafb}
+#upset-tool .ft-lesson h3{font-size:20px;font-weight:700;margin:0 0 12px}
+#upset-tool .ft-lesson h4{font-size:16px;font-weight:700;margin:22px 0 8px}
+#upset-tool .ft-lesson p{font-size:14px;line-height:1.6;margin:8px 0}
+#upset-tool .ft-lesson .ft-eqn{background:#eaf3f4;border-left:3px solid var(--accent);padding:16px 12px;text-align:center;margin:12px 0;font-size:clamp(16px,3vw,22px);font-weight:600;overflow-x:auto}
+#upset-tool .ft-lesson .ft-example{background:white;border:1px solid var(--border);border-radius:3px;padding:12px 15px;margin:12px 0}
+#upset-tool .ft-lesson details{border-top:1px solid var(--border);padding-top:14px;margin-top:20px}
+#upset-tool .ft-lesson summary{cursor:pointer;font-weight:650;color:#316a73}
+#upset-tool .ft-lesson .ft-muted{font-size:12px;color:var(--muted)}
+@media(max-width:780px){#upset-tool .layout{grid-template-columns:1fr}#upset-tool{padding:22px 18px 45px}#upset-tool .panel{padding:17px}}
+</style><section class="tool-intro"><p class="eyebrow">FORGING CALCULATORS / UPSETTING</p><h1>Upsetting <span>Calculator</span></h1><p>Estimate cross-sectional swell when a length of steel is compressed during upsetting. Compare uniform upsetting with an idealized localized bulge. All dimensions are in inches.</p></section><section aria-labelledby="upset-lesson-title" class="ft-lesson"><h3 id="upset-lesson-title">How the Calculation Works</h3><p>Upsetting shortens a heated section of bar while increasing its cross-sectional area. Assuming no material loss, the volume before and after forging is equal.</p><div class="ft-eqn">A₀ × L₀ = A<sub>f</sub> × L<sub>f</sub></div><p><strong>A₀</strong> = original cross-sectional area; <strong>L₀</strong> = original heated length; <strong>A<sub>f</sub></strong> = final average area; <strong>L<sub>f</sub></strong> = final upset length.</p><h4>Uniform upsetting</h4><p>For round stock, diameter grows with the square root of the length ratio. For square stock, the same relationship applies to side width if the cross-section remains square.</p><div class="ft-eqn">D<sub>f</sub> = D₀ √(L₀ / L<sub>f</sub>)</div><div class="ft-eqn">W<sub>f</sub> = W₀ √(L₀ / L<sub>f</sub>)</div><div class="ft-example"><strong>Example:</strong> A 1" round bar upset from a 4" section to 3" has an average final diameter of √(4/3) = <strong>1.155"</strong>, assuming uniform deformation.</div><details><summary>Additional reference: localized bulging and assumptions</summary><p>In localized mode, the visualization uses a broad-shouldered barrel profile. The modeled cross-sectional area increases through smooth shoulder transitions and stays relatively full across the middle of the upset section. The profile is normalized so the integrated volume equals the original stock volume. The peak width is model-dependent and is not a prediction of the actual forged shape.</p><p>For round stock, the displayed width represents diameter. For square stock, it represents an equivalent square width rather than the actual shape of the corners.</p><p>Real deformation depends on temperature distribution, friction, hammer or die contact, stock orientation, and restraint. Severe upsetting can buckle or fold rather than produce the smooth form shown here.</p></details></section>
+
+
+<div class="layout"><section><div class="panel"><h2>Starting Stock</h2><label for="up-shape">Cross-section</label><select id="up-shape"><option value="round">Round</option><option value="square">Square</option></select><label for="up-width">Starting diameter / square width</label><div class="pair"><input id="up-width-r" max="3" min="0.25" step="0.05" type="range" value="1"/><input id="up-width" min="0.01" step="0.05" type="number" value="1"/></div><label for="up-start">Original length of section to upset</label><div class="pair"><input id="up-start-r" max="12" min="0.5" step="0.25" type="range" value="4"/><input id="up-start" min="0.01" step="0.25" type="number" value="4"/></div><label for="up-final">Final length of upset section</label><div class="pair"><input id="up-final-r" max="12" min="0.25" step="0.25" type="range" value="3"/><input id="up-final" min="0.01" step="0.25" type="number" value="3"/></div><label for="up-mode">Deformation model</label><select id="up-mode"><option value="localized">Localized bulge (idealized)</option><option value="uniform">Uniform swell</option></select><button id="up-reset" type="button">Reset Calculator</button><button id="up-print" type="button">Print Results</button><p class="warning" id="up-warning" role="status"></p></div></section>
+<section><div class="panel"><h2>Upsetting Simulation</h2><div class="preview"><canvas aria-label="Original and final upset steel bar profiles, drawn to the same scale" height="540" id="up-canvas" width="900"></canvas></div><div class="legend"><span><i class="key original"></i>Original</span><span><i class="key final"></i>After upsetting</span></div><p class="note">Side-view profiles use a fixed scale for a given starting stock size and length, so changes in peak width remain proportional. The localized shape is a mathematical illustration, not a physical forging simulation. The full length of the selected upset section is shown.</p></div><div class="panel"><h2>Calculated Results</h2><div class="results"><div class="metric primary"><span id="up-peak-label">Maximum modeled width</span><strong id="up-peak">—</strong></div><div class="metric"><span>Uniform equivalent width</span><strong id="up-uniform">—</strong></div><div class="metric"><span>Length reduction</span><strong id="up-reduction">—</strong></div><div class="metric"><span>Percent shortening</span><strong id="up-percent">—</strong></div><div class="metric"><span>Cross-sectional area increase (average)</span><strong id="up-area">—</strong></div><div class="metric"><span>Volume of selected section</span><strong id="up-volume">—</strong></div></div><p class="note">The uniform equivalent width is the width a constant cross-section would have after upsetting. The localized peak is model-dependent and should not be treated as a guaranteed forged dimension.</p></div></section></div><script>
+(function(){'use strict';
+const root=document.getElementById('upset-tool');if(!root)return;
+const $=name=>root.querySelector('#up-'+name);
+const defaults={width:1,start:4,final:3};
+const inch=x=>Number.isFinite(x)?x.toFixed(3)+'"':'—';
+// Final length is constrained by the original length; never erase the drawing
+// for an otherwise valid upsetting adjustment.
+function syncLengthLimits(changed){
+ const start=$('start'),final=$('final'),finalSlider=$('final-r');
+ const L0=Number(start.value);
+ if(!Number.isFinite(L0)||L0<=0)return;
+ final.max=String(L0);
+ finalSlider.max=String(L0);
+ if(changed==='final' && Number(final.value)>L0)final.value=String(L0);
+ if(Number(final.value)>L0){final.value=String(L0);finalSlider.value=String(L0)}
+ else if(Number(final.value)>0)finalSlider.value=final.value;
+}
+Object.keys(defaults).forEach(id=>{
+ const n=$(id),r=$(id+'-r');
+ r.addEventListener('input',()=>{n.value=r.value;syncLengthLimits(id);calculate()});
+ n.addEventListener('input',()=>{
+  if(n.value===''||!Number.isFinite(Number(n.value)))return;
+  if(id==='final' && Number(n.value)>Number($('start').value))n.value=$('start').value;
+  r.value=n.value;syncLengthLimits(id);calculate();
+ });
+ n.addEventListener('change',()=>{
+  if(!(Number(n.value)>0)){n.value=id==='final'?String(Math.min(defaults.final,Number($('start').value)||defaults.start)):String(defaults[id]);r.value=n.value}
+  syncLengthLimits(id);calculate();
+ });
+});
+syncLengthLimits('start');
+$('shape').addEventListener('change',calculate);$('mode').addEventListener('change',calculate);
+$('reset').addEventListener('click',()=>{Object.keys(defaults).forEach(id=>{$(id).value=defaults[id];$(id+'-r').value=defaults[id]});$('shape').value='round';$('mode').value='localized';syncLengthLimits('start');calculate()});
+$('print').addEventListener('click',()=>window.print());
+// Broad-shouldered barrel profile. Area is normalized numerically so the
+// final modeled section has exactly the same volume as the starting section.
+function barrelWeight(t){
+ const edge=Math.min(t,1-t), shoulder=0.22;
+ const u=Math.max(0,Math.min(1,edge/shoulder));
+ return u*u*(3-2*u);
+}
+const barrelAverage=(()=>{let sum=0,N=1000;for(let i=0;i<=N;i++)sum+=(i===0||i===N?1:i%2?4:2)*barrelWeight(i/N);return sum/(3*N)})();
+function upsetWidth(w,ratio,mode,t){
+ if(mode==='uniform')return w*Math.sqrt(ratio);
+ return w*Math.sqrt(1+(ratio-1)*barrelWeight(t)/barrelAverage);
+}
+function peakWidth(w,ratio,mode){return upsetWidth(w,ratio,mode,0.5)}
+function draw(w,L0,Lf,ratio,mode){
+ const canvas=$('canvas'),ctx=canvas.getContext('2d');if(!ctx)return;
+ const cw=canvas.width,ch=canvas.height;ctx.clearRect(0,0,cw,ch);ctx.fillStyle='#fafafa';ctx.fillRect(0,0,cw,ch);
+ const peak=peakWidth(w,ratio,mode);
+ const scale=Math.min(700/L0,155/w,300/peak);
+ const cx=cw/2;
+ function label(s,x,y){ctx.fillStyle='#4a5961';ctx.font='19px Arial';ctx.fillText(s,x,y)}
+ function profile(L,y,widthAt,color){ctx.beginPath();for(let i=0;i<=200;i++){let x=L*i/200;let yy=y-widthAt(i/200)*scale/2;let xx=cx+(x-L/2)*scale;if(i===0)ctx.moveTo(xx,yy);else ctx.lineTo(xx,yy)}for(let i=200;i>=0;i--){let x=L*i/200;ctx.lineTo(cx+(x-L/2)*scale,y+widthAt(i/200)*scale/2)}ctx.closePath();ctx.fillStyle=color;ctx.fill();ctx.strokeStyle='#4b606b';ctx.lineWidth=2;ctx.stroke();}
+ label('BEFORE  •  '+L0.toFixed(2)+'" long',30,42);profile(L0,125,()=>w,'#b8c4ca');
+ label('AFTER  •  '+Lf.toFixed(2)+'" long',30,270);
+ const widthAt=t=>upsetWidth(w,ratio,mode,t);
+ profile(Lf,375,widthAt,'#1BA597');
+ // Show the peak width directly on the modeled section, using the exact
+ // same computed value and scale as the drawn profile.
+ const xDim=Math.min(cw-95,cx+Lf*scale/2+45);
+ const yTop=375-peak*scale/2, yBottom=375+peak*scale/2;
+ ctx.save();ctx.strokeStyle='#263338';ctx.fillStyle='#263338';ctx.lineWidth=1.5;
+ ctx.beginPath();ctx.moveTo(xDim,yTop);ctx.lineTo(xDim,yBottom);ctx.stroke();
+ for(const [yy,sign] of [[yTop,1],[yBottom,-1]]){
+  ctx.beginPath();ctx.moveTo(xDim,yy);ctx.lineTo(xDim-5,yy+sign*9);ctx.lineTo(xDim+5,yy+sign*9);ctx.closePath();ctx.fill();
+ }
+ ctx.font='bold 16px Arial';ctx.textAlign='center';ctx.fillText('PEAK '+peak.toFixed(3)+' in',xDim,Math.max(280,yTop-12));
+ ctx.restore();
+ ctx.strokeStyle='#b5c0c5';ctx.setLineDash([6,7]);ctx.beginPath();ctx.moveTo(cx,35);ctx.lineTo(cx,525);ctx.stroke();ctx.setLineDash([]);
+ }
+ function calculate(){const w=+$('width').value,L0=+$('start').value,Lf=+$('final').value,shape=$('shape').value,mode=$('mode').value;
+ if(![w,L0,Lf].every(Number.isFinite)||w<=0||L0<=0||Lf<=0||Lf>L0){$('warning').textContent='Enter positive dimensions. Final upset length must be no greater than original length.';['peak','uniform','reduction','percent','area','volume'].forEach(id=>$(id).textContent='—');const ctx=$('canvas').getContext('2d');if(ctx)ctx.clearRect(0,0,900,540);return}
+ $('warning').textContent='';const ratio=L0/Lf,uniform=w*Math.sqrt(ratio),peak=peakWidth(w,ratio,mode),area=shape==='round'?Math.PI*w*w/4:w*w;
+ $('peak-label').textContent=mode==='uniform'?'Final width (uniform)':'Peak width (idealized bulge)';$('peak').textContent=inch(peak);$('uniform').textContent=inch(uniform);$('reduction').textContent=inch(L0-Lf);$('percent').textContent=((1-Lf/L0)*100).toFixed(1)+'%';$('area').textContent=((ratio-1)*100).toFixed(1)+'%';$('volume').textContent=(area*L0).toFixed(3)+' in³';
+ if(ratio>2.5)$('warning').textContent='Large shortening selected. Real stock may buckle, fold, or deform irregularly.';
+ draw(w,L0,Lf,ratio,mode)
+ }
+ calculate();
+})();
+</script></div>
+<footer><div class="footer-inner"><span>© <span id="year">2026</span> Adam Hawk · Design &amp; Fabrication Tools</span><a href="/">← Back to All Tools</a></div></footer><script>document.getElementById('year').textContent=new Date().getFullYear()</script></body></html>
