@@ -1,104 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Interactive stock drawing calculator for forging square, rectangular, round and octagonal steel stock.">
-<title>Stock Drawing Calculator | Adam Hawk Tools</title>
-<style>body{margin:0;background:#fff}</style>
-</head>
-<body>
-<div id="drawing-tool">
-<style>
-#drawing-tool{font-family:Arial,Helvetica,sans-serif;color:#333;background:#fff;max-width:1120px;margin:auto;line-height:1.45}
-#drawing-tool *{box-sizing:border-box}
-#drawing-tool h2{font-size:26px;font-weight:600;margin:0 0 6px}
-#drawing-tool p{margin:0 0 18px;color:#666;font-size:14px}
-#drawing-tool .dt-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px}
-#drawing-tool .dt-panel{border:1px solid #ddd;border-radius:8px;padding:20px;min-width:0}
-#drawing-tool h3{font-size:17px;margin:0 0 16px}
-#drawing-tool .dt-field{margin-bottom:17px}
-#drawing-tool label{display:block;font-size:13px;font-weight:600;margin-bottom:7px}
-#drawing-tool select,#drawing-tool input[type=number]{width:100%;background:white;border:1px solid #c8c8c8;border-radius:5px;color:#333;padding:9px;font-size:14px}
-#drawing-tool .dt-pair{display:grid;grid-template-columns:minmax(0,1fr) 100px;gap:12px;align-items:center}
-#drawing-tool input[type=range]{width:100%;accent-color:#1BA597;cursor:pointer}
-#drawing-tool .dt-actions{display:flex;gap:10px;margin-top:10px}
-#drawing-tool button{border:1px solid #1BA597;background:#1BA597;color:white;padding:10px 16px;border-radius:5px;cursor:pointer;font-weight:600}
-#drawing-tool button.dt-secondary{background:#fff;color:#444;border-color:#bbb}
-#drawing-tool .dt-results{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
-#drawing-tool .dt-result{border:1px solid #ddd;border-radius:6px;padding:12px;min-width:0}
-#drawing-tool .dt-result.primary{border-color:#1BA597;background:#f2fbf9}
-#drawing-tool .dt-result small{display:block;font-size:12px;color:#666}
-#drawing-tool .dt-result strong{display:block;font-size:22px;font-weight:600;overflow-wrap:anywhere}
-#drawing-tool .dt-view{border:1px solid #e2e2e2;border-radius:6px;margin:12px 0;padding:10px}
-#drawing-tool .dt-view-title{font-size:12px;font-weight:600;color:#666;margin-bottom:4px}
-#drawing-tool svg{width:100%;height:auto;display:block}
-#drawing-tool .dt-note{font-size:12px;color:#777;margin-top:12px}
-#drawing-tool .dt-error{font-size:13px;color:#a33;min-height:18px}
-@media(max-width:760px){
-#drawing-tool .dt-grid{grid-template-columns:1fr}
-#drawing-tool .dt-panel{padding:15px}
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#438691"><title>Stock Drawing Calculator | Adam Hawk Tools</title><style>*{box-sizing:border-box}body{margin:0;background:#fff;color:#263338;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.55}a{color:inherit}header{position:relative;border-bottom:3px solid #438691}.header-inner{max-width:1320px;margin:auto;padding:21px clamp(44px,5vw,82px);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}.header-inner:before{content:"";position:absolute;left:12px;top:19px;bottom:19px;width:4px;background:#438691;border-radius:8px}.brand{font-size:19px;font-weight:800;letter-spacing:.075em;text-decoration:none;line-height:1.3}.brand span{display:block;font-size:11px;font-weight:500;letter-spacing:.15em;color:#62767c;margin-top:4px}.topnav{display:flex;gap:22px;align-items:center;flex-wrap:wrap}.topnav a{font-size:13px;text-decoration:none;font-weight:600;color:#3d5055}.topnav a:hover{color:#438691}.site-main{max-width:1320px;margin:auto;padding:44px clamp(44px,5vw,82px) 86px}#drawing-tool{font:15px "Helvetica Neue",Helvetica,Arial,sans-serif;color:#263338;background:#fff}#drawing-tool p{color:#62767c;line-height:1.6;font-size:14px;margin:8px 0}#drawing-tool .tool-intro{padding:26px 0 27px;border-bottom:1px solid #d5e0e2;margin-bottom:25px}#drawing-tool .eyebrow{position:relative;display:inline-block;padding-left:17px;color:#365c63;font-size:11px;font-weight:800;letter-spacing:.17em;margin:0 0 11px}#drawing-tool .eyebrow:before{content:"";position:absolute;left:0;top:1px;bottom:1px;width:5px;background:#438691;border-radius:5px}#drawing-tool .stock-title{font-size:clamp(31px,5vw,49px);font-weight:800;letter-spacing:-.052em;line-height:1.13;margin:0}#drawing-tool .stock-title span{color:#438691}#drawing-tool .tool-intro .stock-intro{max-width:720px;margin:15px 0 0;font-size:15px}#drawing-tool .dt-lesson{background:#f7fafb;border:1px solid #d5e0e2;border-radius:14px;padding:30px 32px 26px;margin:38px 0 26px}#drawing-tool .dt-lesson h3{font-size:clamp(23px,3vw,31px);font-weight:800;letter-spacing:-.025em;color:#293e44;margin:0 0 20px}#drawing-tool .dt-lesson h4{font-size:15px;font-weight:700;letter-spacing:.015em;border-top:1px solid #cbd8da;padding:18px 0 12px;margin:28px 0 8px}#drawing-tool .dt-lesson h4:before{content:"";display:inline-block;width:5px;height:19px;background:#438691;border-radius:8px;vertical-align:-4px;margin-right:12px}#drawing-tool .dt-formula{background:#f1f6f6;border-left:4px solid #438691;border-radius:0 12px 12px 0;text-align:left;padding:22px 24px;font-weight:650;margin:12px 0;font-size:clamp(16px,3vw,22px);overflow-x:auto}#drawing-tool .dt-example{background:#fff;border:1px solid #cbd8da;border-top:4px solid #438691;border-radius:10px;padding:22px 25px;margin:12px 0}#drawing-tool .dt-lesson details{border-top:1px solid #d5e0e2;padding-top:14px;margin-top:20px}#drawing-tool .dt-lesson summary{cursor:pointer;font-weight:650;color:#316a73}#drawing-tool .dt-lesson table{border-collapse:collapse;width:100%;font-size:14px}#drawing-tool .dt-lesson th,#drawing-tool .dt-lesson td{border-bottom:1px solid #d5e0e2;text-align:left;padding:9px 8px}#drawing-tool .dt-lesson th{background:#f1f6f6}#drawing-tool .dt-muted,#drawing-tool .dt-note{font-size:12px;color:#62767c}#drawing-tool .dt-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:start}#drawing-tool .dt-panel{border:1px solid #aebec1;border-radius:14px;overflow:hidden;background:#fff;padding:22px;min-width:0}#drawing-tool .dt-panel h3{font-size:17px;font-weight:800;color:#293e44;position:relative;padding-left:15px;margin:0 0 18px}#drawing-tool .dt-panel h3:before{content:"";position:absolute;left:0;top:3px;bottom:3px;width:4px;border-radius:6px;background:#438691}#drawing-tool .dt-panel h3:not(:first-child){margin-top:28px}#drawing-tool .dt-field{margin-bottom:17px}#drawing-tool label{display:block;font-size:13px;font-weight:600;margin:17px 0 7px}#drawing-tool select,#drawing-tool input[type=number]{width:100%;background:#fff;border:1px solid #c9d6d9;border-radius:7px;color:#263338;padding:9px;font:inherit}#drawing-tool .dt-pair{display:grid;grid-template-columns:minmax(0,1fr) 100px;gap:12px;align-items:center}#drawing-tool input[type=range]{width:100%;accent-color:#438691;cursor:pointer}#drawing-tool .dt-actions{display:flex;gap:10px;margin-top:10px}#drawing-tool button{border:2px solid #438691;background:#438691;color:#fff;padding:12px 18px;border-radius:9px;cursor:pointer;font:inherit;font-weight:800}#drawing-tool button:hover{background:#316a73}#drawing-tool button.dt-secondary{background:#438691;color:#fff;border-color:#438691}#drawing-tool .dt-results{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:14px 0}#drawing-tool .dt-result{padding:15px 10px;border-bottom:1px solid #d5e0e2;min-width:0;background:#fff}#drawing-tool .dt-result small{display:block;font-size:12px;color:#62767c}#drawing-tool .dt-result strong{display:block;font-size:21px;font-weight:800;margin-top:6px;overflow-wrap:anywhere}#drawing-tool .dt-result.primary strong{color:#438691}#drawing-tool .dt-view{margin:16px 0;padding:0;background:transparent}#drawing-tool .dt-view-title{font-size:12px;font-weight:700;margin:16px 0 6px;color:#263338}#drawing-tool svg{width:100%;height:auto;display:block;background:#172126;border:1px solid #334147;border-bottom:4px solid #438691;border-radius:12px}#drawing-tool svg text{fill:#d4e5e8}#drawing-tool svg line{stroke:#40535a}#drawing-tool svg rect,#drawing-tool svg circle,#drawing-tool svg polygon{fill:#438691;stroke:#9dc8d0}#drawing-tool .dt-error{font-size:13px;color:#a34e20;min-height:18px}#drawing-tool input:focus-visible,#drawing-tool select:focus-visible,#drawing-tool button:focus-visible{outline:2px solid #438691;outline-offset:2px}footer{border-top:5px solid #293d43;padding:24px 28px 35px;color:#687a80;font-size:12px}.footer-inner{max-width:1156px;margin:auto;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}footer a{color:#438691;text-decoration:none}@media(max-width:780px){#drawing-tool .dt-lesson{padding:23px 19px}.site-main{padding:28px 24px 60px}.header-inner{padding-left:24px;padding-right:24px}#drawing-tool .dt-grid{grid-template-columns:1fr}#drawing-tool .dt-panel{padding:17px}}@media(max-width:600px){.header-inner{padding:19px;gap:12px}.header-inner:before{left:5px;top:16px;bottom:16px}.topnav{gap:14px}}@media(max-width:440px){.site-main{padding:24px 20px 52px}.header-inner{padding-left:20px;padding-right:20px}#drawing-tool .dt-pair{grid-template-columns:minmax(0,1fr) 82px}}</style><style id="homepage-flat-visualization-standard">
+/* Homepage standard: flat outlined surfaces, no drop shadows. */
+#drawing-tool .dt-view,
+#drawing-tool .dt-view svg,
+#drawing-tool .dt-panel,
+#drawing-tool .dt-lesson {
+  box-shadow: none !important;
+  filter: none !important;
 }
-@media(max-width:420px){
-#drawing-tool .dt-pair{grid-template-columns:minmax(0,1fr) 82px}
-#drawing-tool .dt-result strong{font-size:18px}
+#drawing-tool .dt-view {
+  background: transparent;
+  border: 0;
+  padding: 0;
 }
-
-/* Equation introduction */
-#drawing-tool .dt-lesson{border:1px solid #d9e3e1;border-radius:8px;padding:22px;margin:18px 0 26px;background:#fff;color:#333}
-#drawing-tool .dt-lesson h3{font-size:20px;margin:0 0 12px}
-#drawing-tool .dt-lesson h4{font-size:16px;margin:23px 0 8px}
-#drawing-tool .dt-lesson p{line-height:1.6;margin:8px 0}
-#drawing-tool .dt-lesson .dt-formula{background:#f2fbf9;border-left:3px solid #1BA597;padding:16px 10px;margin:12px 0;text-align:center;font-size:clamp(17px,3.5vw,24px);font-weight:600;overflow-x:auto}
-#drawing-tool .dt-lesson .dt-example{background:#f7f8f8;border-radius:6px;padding:13px 15px;margin:12px 0}
-#drawing-tool .dt-lesson table{border-collapse:collapse;width:100%;font-size:14px}
-#drawing-tool .dt-lesson th,#drawing-tool .dt-lesson td{border-bottom:1px solid #e4e4e4;text-align:left;padding:9px 8px}
-#drawing-tool .dt-lesson th{background:#f7f8f8}
-#drawing-tool .dt-lesson details{border-top:1px solid #ddd;margin-top:20px;padding-top:14px}
-#drawing-tool .dt-lesson summary{cursor:pointer;font-weight:650;color:#167e75}
-#drawing-tool .dt-lesson .dt-muted{font-size:13px;color:#666}
-
-/* adamhawk-tools.com visual system */
-#drawing-tool{--teal:#438691;--teal-dark:#306873;--ink:#24383c;--muted:#62767a;--line:#d9e4e5;--surface:#f5f9f9;--soft:#eaf3f4;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--ink);max-width:1160px;padding:clamp(18px,4vw,44px);line-height:1.55}
-#drawing-tool h2{font-size:clamp(29px,4vw,40px);letter-spacing:-.035em;line-height:1.15;color:var(--ink);margin:0 0 14px}
-#drawing-tool h3{font-size:19px;letter-spacing:-.015em;color:var(--ink)}
-#drawing-tool p{font-size:14px;color:var(--muted);line-height:1.65}
-#drawing-tool>.dt-eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.16em;font-weight:750;color:var(--teal);margin-bottom:12px}
-#drawing-tool .dt-lesson{border:1px solid var(--line);border-radius:14px;padding:clamp(20px,3vw,32px);margin:26px 0 30px;box-shadow:0 3px 14px rgba(25,66,70,.035)}
-#drawing-tool .dt-lesson h3{font-size:22px}
-#drawing-tool .dt-lesson h4{color:var(--ink)}
-#drawing-tool .dt-lesson .dt-formula{background:var(--soft);border-left:4px solid var(--teal);border-radius:0 7px 7px 0;color:var(--teal-dark)}
-#drawing-tool .dt-lesson .dt-example{background:var(--surface);border:1px solid var(--line);border-radius:9px}
-#drawing-tool .dt-lesson summary{color:var(--teal-dark)}
-#drawing-tool .dt-lesson th{background:var(--surface)}
-#drawing-tool .dt-grid{gap:20px;align-items:start}
-#drawing-tool .dt-panel{border:1px solid var(--line);border-radius:14px;padding:clamp(18px,2.5vw,28px);box-shadow:0 3px 14px rgba(25,66,70,.035)}
-#drawing-tool .dt-panel h3:not(:first-child){padding-top:22px;border-top:1px solid var(--line);margin-top:26px}
-#drawing-tool label{font-size:12px;letter-spacing:.01em;color:var(--ink)}
-#drawing-tool select,#drawing-tool input[type=number]{border:1px solid #cbdadc;border-radius:8px;min-height:40px;font:inherit;font-size:14px;transition:border-color .15s,box-shadow .15s}
-#drawing-tool select:focus,#drawing-tool input[type=number]:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(67,134,145,.14)}
-#drawing-tool input[type=range]{accent-color:var(--teal)}
-#drawing-tool button{background:var(--teal);border-color:var(--teal);border-radius:8px;min-height:40px;transition:background .15s,transform .15s}
-#drawing-tool button:hover{background:var(--teal-dark);transform:translateY(-1px)}
-#drawing-tool button.dt-secondary{background:white;border-color:var(--line);color:var(--teal-dark)}
-#drawing-tool button.dt-secondary:hover{background:var(--soft)}
-#drawing-tool .dt-result{border-color:var(--line);background:var(--surface);border-radius:9px;padding:14px}
-#drawing-tool .dt-result.primary{background:var(--soft);border-color:var(--teal)}
-#drawing-tool .dt-result small{color:var(--muted);font-size:11px;line-height:1.4}
-#drawing-tool .dt-result strong{font-size:clamp(17px,2.2vw,22px);color:var(--ink);margin-top:5px;font-variant-numeric:tabular-nums}
-#drawing-tool .dt-result.primary strong{color:var(--teal-dark)}
-#drawing-tool .dt-view{border-color:var(--line);border-radius:9px;padding:14px;background:#fff;margin-top:17px}
-#drawing-tool .dt-view-title{color:var(--muted);letter-spacing:.02em;margin-bottom:10px}
-#drawing-tool .dt-note{line-height:1.6}
-#drawing-tool .dt-status{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--teal-dark);border:1px solid var(--line);border-radius:100px;padding:5px 10px;background:var(--soft);margin:0 0 12px}
-@media(max-width:760px){#drawing-tool{padding:18px 12px}#drawing-tool .dt-grid{grid-template-columns:1fr}#drawing-tool .dt-panel{padding:18px}}
-@media(max-width:420px){#drawing-tool .dt-results{gap:8px}#drawing-tool .dt-result{padding:10px}#drawing-tool .dt-result strong{font-size:17px}}
-
+#drawing-tool .dt-view svg {
+  box-shadow: none !important;
+  filter: none !important;
+  border: 1px solid #334147;
+  border-bottom: 4px solid #438691;
+  border-radius: 12px 12px 0 0;
+}
 </style>
-
-<div class="dt-eyebrow">Interactive Workshop Resources</div>
-<div class="dt-status">Free Tool</div>
-<h2>Stock Drawing Calculator</h2>
+<style id="homepage-design-system-alignment">
+/* Matches the approved homepage's Nazel/industrial visual language. */
+:root { --teal:#438691; --ink:#202c30; --muted:#64777b; --line:#bfcdd0; }
+body { color:var(--ink); }
+header { background:#e9eeee; border-bottom:5px solid #28383d; }
+.header-inner { min-height:96px; }
+.header-inner:before { width:5px; left:10px; top:15px; bottom:15px; border-radius:5px; }
+.brand { font-weight:850; letter-spacing:.14em; }
+.brand span { font-weight:650; letter-spacing:.22em; }
+.topnav a { font-weight:750; text-transform:uppercase; letter-spacing:.065em; font-size:11px; }
+#drawing-tool .eyebrow { color:#438691 !important; letter-spacing:.17em; }
+#drawing-tool .dt-panel { background:#fdfefe; border:1px solid #aebec1; border-radius:13px 13px 0 0; box-shadow:none; }
+#drawing-tool .dt-panel h3 { font-weight:800; }
+#drawing-tool .dt-lesson { border-color:#bfcdd0; box-shadow:none; }
+#drawing-tool .dt-view, #drawing-tool .dt-view svg { box-shadow:none!important; filter:none!important; }
+#drawing-tool svg { border-radius:12px 12px 0 0; background:#172126; border-bottom:4px solid var(--teal); }
+#drawing-tool button { border-radius:3px; text-transform:uppercase; letter-spacing:.045em; font-size:12px; box-shadow:none; }
+#drawing-tool .dt-formula { border-radius:0 12px 0 0; }
+#drawing-tool .dt-example { border-radius:10px 10px 0 0; }
+#drawing-tool .dt-view-title { color:#62767c; }
+footer { border-top:5px solid #293d43; }
+@media(max-width:600px) { .header-inner:before { left:4px; } #drawing-tool .dt-panel { border-radius:10px 10px 0 0; } }
+</style>
+</head><body><header><div class="header-inner"><a class="brand" href="/">ADAM HAWK<span>DESIGN &amp; FABRICATION TOOLS</span></a><nav class="topnav"><a href="/">← All Tools</a><a href="https://adamhawk.com" target="_blank" rel="noopener">Artist Website ↗</a></nav></div></header><main class="site-main"><div id="drawing-tool"><div class="tool-intro"><p class="eyebrow">FORGING CALCULATORS / STOCK DRAWING</p>
+<h1 class="stock-title">Stock Drawing <span>Calculator</span></h1>
+<p class="stock-intro">Calculate how stock length changes when forging between square, rectangular, round, and octagonal cross-sections using conservation of volume.</p></div>
 
 <section class="dt-lesson">
 <h3>How the Calculation Works</h3>
@@ -239,31 +186,31 @@
 <div class="dt-view">
 <div class="dt-view-title">Cross-sections, relative scale</div>
 <svg viewBox="0 0 520 205" role="img" aria-label="Starting and finished cross sections drawn to the same scale">
-<line x1="260" y1="14" x2="260" y2="173" stroke="#e4e4e4"/>
+<line x1="260" y1="14" x2="260" y2="173" stroke="#40535a"/>
 <g id="dt-from-drawing">
-<rect id="dt-from-rect" fill="#c6c6c6" stroke="#555" stroke-width="2"/>
-<circle id="dt-from-circle" fill="#c6c6c6" stroke="#555" stroke-width="2"/>
-<polygon id="dt-from-oct" fill="#c6c6c6" stroke="#555" stroke-width="2"/>
+<rect id="dt-from-rect" fill="#438691" stroke="#9dc8d0" stroke-width="2"/>
+<circle id="dt-from-circle" fill="#438691" stroke="#9dc8d0" stroke-width="2"/>
+<polygon id="dt-from-oct" fill="#438691" stroke="#9dc8d0" stroke-width="2"/>
 </g>
 <g id="dt-to-drawing">
-<rect id="dt-to-rect" fill="#c6c6c6" stroke="#555" stroke-width="2"/>
-<circle id="dt-to-circle" fill="#c6c6c6" stroke="#555" stroke-width="2"/>
-<polygon id="dt-to-oct" fill="#c6c6c6" stroke="#555" stroke-width="2"/>
+<rect id="dt-to-rect" fill="#438691" stroke="#9dc8d0" stroke-width="2"/>
+<circle id="dt-to-circle" fill="#438691" stroke="#9dc8d0" stroke-width="2"/>
+<polygon id="dt-to-oct" fill="#438691" stroke="#9dc8d0" stroke-width="2"/>
 </g>
-<text x="130" y="187" font-size="13" fill="#555" text-anchor="middle">Starting</text>
-<text x="390" y="187" font-size="13" fill="#555" text-anchor="middle">Finished</text>
+<text x="130" y="187" font-size="13" fill="#d4e5e8" text-anchor="middle">Starting</text>
+<text x="390" y="187" font-size="13" fill="#d4e5e8" text-anchor="middle">Finished</text>
 </svg>
 </div>
 
 <div class="dt-view">
 <div class="dt-view-title">Length comparison, schematic bars</div>
 <svg viewBox="0 0 520 155" role="img" aria-label="Comparison of starting and finished lengths">
-<text x="10" y="18" font-size="12" fill="#555">Starting</text>
-<rect id="dt-start-bar" x="10" y="29" height="28" fill="#c6c6c6" stroke="#555"/>
-<text id="dt-start-bar-label" x="10" y="72" font-size="12" fill="#555"></text>
-<text x="10" y="93" font-size="12" fill="#555">Finished</text>
-<rect id="dt-end-bar" x="10" y="104" height="28" fill="#a9d4d8" stroke="#438691"/>
-<text id="dt-end-bar-label" x="10" y="148" font-size="12" fill="#555"></text>
+<text x="10" y="18" font-size="12" fill="#d4e5e8">Starting</text>
+<rect id="dt-start-bar" x="10" y="29" height="28" fill="#438691" stroke="#9dc8d0"/>
+<text id="dt-start-bar-label" x="10" y="72" font-size="12" fill="#d4e5e8"></text>
+<text x="10" y="93" font-size="12" fill="#d4e5e8">Finished</text>
+<rect id="dt-end-bar" x="10" y="104" height="28" fill="#438691" stroke="#9dc8d0"/>
+<text id="dt-end-bar-label" x="10" y="148" font-size="12" fill="#d4e5e8"></text>
 </svg>
 </div>
 
@@ -432,5 +379,6 @@ try{update()}catch(err){
 })();
 </script>
 </div>
-</body>
-</html>
+</main>
+
+<footer><div class="footer-inner"><span>© <span id="year">2026</span> Adam Hawk · Design &amp; Fabrication Tools</span><a href="/">← Back to All Tools</a></div></footer><script>document.getElementById('year').textContent=new Date().getFullYear()</script></body></html>
