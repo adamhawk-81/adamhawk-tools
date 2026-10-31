@@ -1,0 +1,1332 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#438691"><title>Swage Stock Selection Calculator | Adam Hawk Tools</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#fff;color:#263338;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.55}a{color:inherit}header{border-bottom:3px solid #438691}.header-inner{max-width:1220px;margin:auto;padding:21px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}.brand{font-size:19px;font-weight:750;letter-spacing:.075em;text-decoration:none;line-height:1.3}.brand span{display:block;font-size:11px;font-weight:500;letter-spacing:.15em;color:#62767c;margin-top:4px}.topnav{display:flex;gap:22px;align-items:center;flex-wrap:wrap}.topnav a{font-size:13px;text-decoration:none;font-weight:600;color:#3d5055}.topnav a:hover{color:#438691}footer{border-top:1px solid #d5e0e2;padding:24px 28px 35px;color:#687a80;font-size:12px}.footer-inner{max-width:1164px;margin:auto;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}footer a{color:#438691;text-decoration:none}@media(max-width:600px){.header-inner{padding:19px;gap:12px}.topnav{gap:14px}}
+
+#swage-stock-tool{--accent:#438691;--ink:#263338;--muted:#62767c;--border:#d5e0e2;--dark:#101518;font:15px "Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--ink);background:#fff;max-width:1220px;margin:auto;padding:30px 28px 65px}
+#swage-stock-tool *{box-sizing:border-box}
+#swage-stock-tool h2{font-size:25px;font-weight:650;margin:0 0 12px}
+#swage-stock-tool h3{font-size:17px;font-weight:700;margin:0 0 18px;color:#263338}
+#swage-stock-tool p{color:var(--muted);line-height:1.6}
+#swage-stock-tool .tool-intro{padding:25px 0 27px;border-bottom:1px solid var(--border);margin-bottom:25px}
+#swage-stock-tool .tool-intro .eyebrow{color:var(--accent);font-size:11px;font-weight:750;letter-spacing:.17em;margin:0 0 11px}
+#swage-stock-tool .tool-intro h1{font-size:clamp(31px,5vw,49px);font-weight:650;letter-spacing:-.04em;line-height:1.13;margin:0}
+#swage-stock-tool .tool-intro h1 span{color:var(--accent)}
+#swage-stock-tool .tool-intro>p:last-child{max-width:720px;margin:15px 0 0}
+#swage-stock-tool .layout{display:grid;grid-template-columns:330px minmax(0,1fr);gap:22px;align-items:start}
+#swage-stock-tool .panel{border:1px solid var(--border);padding:22px;margin-bottom:20px;background:#fff}
+#swage-stock-tool label{display:block;margin:17px 0 7px;font-size:13px;font-weight:600}
+#swage-stock-tool .pair{display:flex;gap:12px;align-items:center}
+#swage-stock-tool input[type=range]{flex:1;min-width:0;accent-color:var(--accent)}
+#swage-stock-tool input[type=number],#swage-stock-tool select{padding:9px;border:1px solid #c9d6d9;border-radius:3px;background:#fff;color:var(--ink);font:inherit}
+#swage-stock-tool input[type=number]{width:90px}
+#swage-stock-tool select{width:100%}
+#swage-stock-tool input:focus-visible,#swage-stock-tool select:focus-visible,#swage-stock-tool button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#swage-stock-tool button{background:var(--accent);color:white;border:1px solid var(--accent);border-radius:3px;padding:12px 18px;margin-top:20px;cursor:pointer;font:inherit;font-weight:650}
+#swage-stock-tool button:hover{background:#316a73}
+#swage-stock-tool .results{display:grid;grid-template-columns:1fr 1fr}
+#swage-stock-tool .metric{padding:15px 10px;border-bottom:1px solid var(--border)}
+#swage-stock-tool .metric span{display:block;font-size:12px;color:var(--muted)}
+#swage-stock-tool .metric strong{display:block;font-size:21px;font-weight:650;margin-top:6px;overflow-wrap:anywhere}
+#swage-stock-tool .metric.primary strong{color:var(--accent)}
+#swage-stock-tool svg{width:100%;height:auto;display:block;background:var(--dark);border:1px solid #334147;border-radius:3px;margin:8px 0 16px}
+#swage-stock-tool .note{font-size:12px}
+#swage-stock-tool .viz-label{font-size:12px;font-weight:700;margin:16px 0 6px}
+#swage-stock-tool .warning{color:#a34e20}
+#swage-stock-tool .lesson{border:1px solid var(--border);border-radius:3px;padding:23px;margin:18px 0 26px;background:#f7fafb}
+#swage-stock-tool .lesson h3{font-size:20px;font-weight:700;margin:0 0 12px}
+#swage-stock-tool .lesson h4{font-size:16px;font-weight:700;margin:22px 0 8px}
+#swage-stock-tool .lesson p{font-size:14px;line-height:1.6;margin:8px 0}
+#swage-stock-tool .lesson .lesson-equation{background:#eaf3f4;border-left:3px solid var(--accent);padding:16px 12px;text-align:center;margin:12px 0;font-size:clamp(16px,3vw,22px);font-weight:600;overflow-x:auto}
+#swage-stock-tool .lesson .lesson-example{background:white;border:1px solid var(--border);border-radius:3px;padding:12px 15px;margin:12px 0}
+#swage-stock-tool .lesson details{border-top:1px solid var(--border);padding-top:14px;margin-top:20px}
+#swage-stock-tool .lesson summary{cursor:pointer;font-weight:650;color:#316a73}
+#swage-stock-tool .lesson .lesson-muted{font-size:12px;color:var(--muted)}
+@media(max-width:780px){#swage-stock-tool .layout{grid-template-columns:1fr}#swage-stock-tool{padding:22px 18px 45px}#swage-stock-tool .panel{padding:17px}}
+
+
+
+/* Industrial site design: visual-only refinement, October 2026 */
+header{position:relative;border-bottom:3px solid #438691}
+.header-inner:before{content:"";position:absolute;left:12px;top:19px;bottom:19px;width:4px;background:#438691;border-radius:8px}
+.brand{font-weight:800}
+#swage-stock-tool .tool-intro{padding-top:26px;border-bottom:4px solid #293d43}
+#swage-stock-tool .tool-intro .eyebrow{position:relative;display:inline-block;padding-left:17px;color:#365c63;font-weight:800}
+#swage-stock-tool .tool-intro .eyebrow:before{content:"";position:absolute;left:0;top:1px;bottom:1px;width:5px;background:#438691;border-radius:5px}
+#swage-stock-tool .tool-intro h1{font-weight:800;letter-spacing:-.052em}
+#swage-stock-tool .panel{border:1px solid #aebec1;border-radius:13px 13px 0 0;overflow:hidden;background:#fdfefe}
+#swage-stock-tool .panel h2{font-weight:800;color:#293e44;position:relative;padding-left:15px}
+#swage-stock-tool .panel h2:before{content:"";position:absolute;left:0;top:3px;bottom:3px;width:4px;border-radius:6px;background:#438691}
+#swage-stock-tool button{font-weight:800;border-width:2px}
+#swage-stock-tool svg{border-bottom:4px solid #438691;border-radius:11px 11px 0 0;background:#172126}
+#swage-stock-tool .metric strong{font-weight:800}
+#swage-stock-tool .lesson{border:1px solid #aebec1;border-radius:13px 13px 0 0;background:#f7fafb}
+#swage-stock-tool .lesson h3{font-weight:800;color:#293e44}
+#swage-stock-tool .lesson .lesson-equation{border-left:5px solid #438691;border-radius:0 11px 0 0}
+#swage-stock-tool .lesson .lesson-example{border-color:#aebec1;border-radius:9px 9px 0 0}
+footer{border-top:5px solid #293d43}
+@media(max-width:600px){.header-inner:before{left:5px;top:16px;bottom:16px}}
+
+
+@media(min-width:781px){#swage-stock-tool{max-width:1320px;padding:44px clamp(44px,5vw,82px) 86px}.header-inner{max-width:1320px;padding-left:clamp(44px,5vw,82px);padding-right:clamp(44px,5vw,82px)}.footer-inner{max-width:1156px}}@media(max-width:780px){#swage-stock-tool{padding:28px 24px 60px}.header-inner{padding-left:24px;padding-right:24px}}@media(max-width:440px){#swage-stock-tool{padding:24px 20px 52px}.header-inner{padding-left:20px;padding-right:20px}}
+#swage-stock-tool .lesson{background:#fff;border:0;border-top:4px solid #293d43;border-radius:0;padding:30px 0 20px;margin-top:38px}#swage-stock-tool .lesson h3{font-size:clamp(23px,3vw,31px);letter-spacing:-.025em;margin-bottom:20px}#swage-stock-tool .lesson h4{font-size:15px;letter-spacing:.015em;padding:18px 0 12px;border-top:1px solid #cbd8da;margin-top:28px}#swage-stock-tool .lesson h4:before{content:"";display:inline-block;width:5px;height:19px;background:#438691;border-radius:8px;vertical-align:-4px;margin-right:12px}#swage-stock-tool .lesson .lesson-equation{background:#f1f6f6;border-left:4px solid #438691;text-align:left;padding:22px 24px;font-weight:650}#swage-stock-tool .lesson .lesson-example{background:#fff;border:1px solid #cbd8da;border-top:4px solid #438691;padding:22px 25px;border-radius:0}
+
+/* Panel curves matched to the Tapered Scroll Calculator reference */
+#swage-stock-tool .lesson {
+  background:#f7f9fa !important;
+  border:1px solid #c8d9dc !important;
+  border-radius:26px 26px 0 0 !important;
+  padding:clamp(25px,4.5vw,56px) !important;
+  margin:48px 0 34px !important;
+}
+#swage-stock-tool .lesson .lesson-equation {
+  background:#eef3f4 !important;
+  border-left:5px solid #438691 !important;
+  border-radius:0 !important;
+}
+#swage-stock-tool .lesson .lesson-example {
+  border-radius:18px 18px 0 0 !important;
+}
+#swage-stock-tool .panel {
+  border:1px solid #c8d9dc !important;
+  border-radius:24px 24px 0 0 !important;
+  background:#f9fbfb !important;
+}
+@media(max-width:600px){#swage-stock-tool .lesson{border-radius:20px 20px 0 0 !important}}
+
+
+#swage-stock-tool .main{display:grid;grid-template-columns:330px minmax(0,1fr);gap:22px;align-items:start}
+#swage-stock-tool .results{display:flex;flex-direction:column;gap:0}
+#swage-stock-tool .input-pair{display:flex;align-items:center;gap:12px}
+#swage-stock-tool .input-pair input[type=range]{flex:1;min-width:0}
+#swage-stock-tool .input-pair input[type=number]{width:90px;flex:0 0 90px}
+#swage-stock-tool .metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+#swage-stock-tool .metric{min-width:0;padding:15px 10px;border:0;border-bottom:1px solid #d5e0e2}
+#swage-stock-tool .metric small{display:block;font-size:12px;color:#62767c}
+#swage-stock-tool .metric strong{display:block;font-size:21px;font-weight:800;margin-top:6px;overflow-wrap:anywhere}
+#swage-stock-tool .teal{color:#438691}
+#swage-stock-tool .muted{color:#62767c}
+#swage-stock-tool .note{font-size:12px;line-height:1.6}
+#swage-stock-tool .panel{min-width:0}
+#swage-stock-tool canvas{display:block;width:100%;height:auto;background:#101518;border:1px solid #334147;border-bottom:4px solid #438691;border-radius:11px 11px 0 0}
+#swage-stock-tool .legend{display:flex;flex-wrap:wrap;gap:15px;margin-top:12px;font-size:12px;color:#62767c}
+#swage-stock-tool .legend-item{display:flex;align-items:center;gap:6px}
+#swage-stock-tool .swatch{display:inline-block;width:13px;height:10px}
+#swage-stock-tool .stock-color{background:#8fa2af}
+#swage-stock-tool .filled-color{background:#438691}
+#swage-stock-tool .flash-color{background:#e6a34c}
+#swage-stock-tool .unfilled-color{background:#e9a0a0}
+#swage-stock-tool .tabs{display:flex;gap:7px;flex-wrap:wrap;margin:18px 0}
+#swage-stock-tool .tabs button{margin:0;padding:10px 15px;background:#fff;color:#263338;border:2px solid #c9d6d9;border-radius:3px;font-size:13px}
+#swage-stock-tool .tabs button.active{background:#438691;color:#fff;border-color:#438691}
+#swage-stock-tool .table-wrap{overflow-x:auto}
+#swage-stock-tool table{width:100%;border-collapse:collapse;font-size:13px}
+#swage-stock-tool th,#swage-stock-tool td{padding:12px 9px;text-align:left;border-bottom:1px solid #d5e0e2}
+#swage-stock-tool th{font-weight:700;color:#62767c}
+#swage-stock-tool tbody tr{cursor:pointer}
+#swage-stock-tool tbody tr:hover{background:#eef3f4}
+#swage-stock-tool tbody tr.selected{background:#dcebef}
+#swage-stock-tool .status{margin-top:15px;padding:12px;background:#eef3f4;font-size:13px;line-height:1.6}
+#swage-stock-tool .access-note{font-size:11px!important;font-weight:800;letter-spacing:.17em;color:#438691!important;margin-top:13px!important}
+#swage-stock-tool .lesson{font-size:14px;line-height:1.6}
+#swage-stock-tool .lesson h4{font-weight:700}
+#swage-stock-tool .lesson-equation{line-height:1.5;overflow-x:auto}
+#swage-stock-tool .lesson details{border-top:1px solid #d5e0e2;padding-top:14px;margin-top:20px}
+#swage-stock-tool .lesson summary{cursor:pointer;font-weight:650;color:#316a73}
+#swage-stock-tool .lesson-muted{font-size:12px;color:#62767c}
+@media(max-width:780px){#swage-stock-tool .main{grid-template-columns:1fr}}
+@media(max-width:600px){#swage-stock-tool .metric strong{font-size:17px}#swage-stock-tool th,#swage-stock-tool td{padding:9px 6px;font-size:11px}}
+</style></head>
+<body><header><div class="header-inner"><a class="brand" href="/">ADAM HAWK<span>DESIGN & FABRICATION TOOLS</span></a><nav class="topnav"><a href="/">← All Tools</a><a href="https://adamhawk.com" target="_blank" rel="noopener">Artist Website ↗</a></nav></div></header>
+<div id="swage-stock-tool">
+<div class="tool-intro"><p class="eyebrow">FORGING CALCULATORS / SWAGE GEOMETRY</p><h1>Swage Stock <span>Selection Calculator</span></h1><p>Determine starting stock for a selected swage profile, compare common fractional sizes, and estimate flash or unfilled cavity area.</p><p class="access-note">FREE ACCESS</p></div>
+<div class="calculator">
+
+  <!-- HOW THE CALCULATION WORKS -->
+
+  <section class="lesson">
+
+    <h3>How the Calculation Works</h3>
+
+    <p>
+      When forging steel into a swage or shaped die,
+      the material is redistributed to match the
+      finished cross-section. Assuming the forged
+      section maintains the same length, the starting
+      stock and finished profile must have equal
+      cross-sectional areas. This calculation is based
+      on the principle of
+      <strong>conservation of volume</strong>.
+    </p>
+
+    <h4>1. Calculate the swage cross-sectional area</h4>
+
+    <p>
+      The cross-sectional area depends on the selected
+      swage geometry. For a half-round profile:
+    </p>
+
+    <div class="lesson-equation">
+      A = πW² ÷ 8
+    </div>
+
+    <p>
+      <strong>A</strong> = cross-sectional area;
+      <strong>W</strong> = swage width (diameter
+      of the semicircle).
+    </p>
+
+    <h4>2. Calculate equivalent starting stock</h4>
+
+    <p>
+      Once the swage area is known, the equivalent
+      dimensions for square and round starting stock
+      can be calculated.
+    </p>
+
+    <div class="lesson-equation">
+      Square: S = √A
+    </div>
+
+    <div class="lesson-equation">
+      Round: D = √(4A ÷ π)
+    </div>
+
+    <p>
+      <strong>S</strong> = square stock side;
+      <strong>D</strong> = round stock diameter.
+      The calculator compares these theoretical
+      dimensions with common fractional stock sizes.
+    </p>
+
+    <h4>3. Compare starting stock and swage area</h4>
+
+    <p>
+      The difference between the starting stock area
+      and finished swage area indicates whether
+      material is theoretically excessive or
+      insufficient at an unchanged forged length.
+    </p>
+
+    <div class="lesson-equation">
+      ΔA = A<sub>stock</sub> − A<sub>swage</sub>
+    </div>
+
+    <p>
+      A positive result indicates excess material
+      that may form flash. A negative result indicates
+      insufficient material to fill the finished
+      cross-section under the stated assumptions.
+    </p>
+
+    <div class="lesson-example">
+
+      <p>
+        <strong>Example:</strong>
+        A 1" wide half-round swage formed from
+        5/8" square stock.
+      </p>
+
+      <p>
+        Swage area:
+        π × 1² ÷ 8 =
+        <strong>0.3927 in²</strong>
+      </p>
+
+      <p>
+        Starting stock area:
+        0.625² =
+        <strong>0.3906 in²</strong>
+      </p>
+
+      <p>
+        Area difference:
+        0.3906 − 0.3927 =
+        <strong>−0.0021 in²</strong>
+      </p>
+
+      <p>
+        The starting stock contains approximately
+        <strong>99.5%</strong> of the area required
+        for the finished half-round profile.
+      </p>
+
+    </div>
+
+    <details>
+
+      <summary>
+        Additional reference: swage geometries
+        and material balance
+      </summary>
+
+      <h4>Other Swage Profiles</h4>
+
+      <div class="lesson-equation">
+        V / Triangle: A = W × D ÷ 2
+      </div>
+
+      <div class="lesson-equation">
+        Trapezoid: A = (W + B) × D ÷ 2
+      </div>
+
+      <div class="lesson-equation">
+        Rounded-Bottom U:
+        A = WH + πW² ÷ 8
+      </div>
+
+      <p>
+        <strong>W</strong> = profile width;
+        <strong>D</strong> = depth;
+        <strong>B</strong> = bottom width;
+        <strong>H</strong> = straight-wall height.
+      </p>
+
+      <h4>Estimated Flash</h4>
+
+      <div class="lesson-equation">
+        Flash Area =
+        max(0, A<sub>stock</sub> − A<sub>swage</sub>)
+      </div>
+
+      <div class="lesson-equation">
+        Flash Width Per Side =
+        Flash Area ÷ (2 × Flash Thickness)
+      </div>
+
+      <h4>Unfilled Cavity</h4>
+
+      <div class="lesson-equation">
+        Unfilled % =
+        [max(0, A<sub>swage</sub> − A<sub>stock</sub>)
+        ÷ A<sub>swage</sub>] × 100
+      </div>
+
+    </details>
+
+    <p class="lesson-muted">
+      <strong>Important:</strong>
+      These calculations compare theoretical
+      cross-sectional areas at constant length.
+      Actual forging may produce elongation,
+      shortening, flash, scale loss, or incomplete
+      die filling. The calculator does not simulate
+      metal flow or predict the location of
+      unfilled regions.
+    </p>
+
+  </section>
+
+  <div class="main">
+
+    <!-- INPUTS -->
+
+    <div class="panel">
+
+      <h2>Swage Geometry</h2>
+
+      <label for="profile">Finished Cross-Section</label>
+
+      <select id="profile">
+        <option value="half">Half-Round</option>
+        <option value="v">V / Triangular</option>
+        <option value="trap">Trapezoidal</option>
+        <option value="u">U / Rounded-Bottom</option>
+      </select>
+
+      <label>Profile Width (in)</label>
+
+      <div class="input-pair">
+        <input id="widthRange" type="range"
+               min="0.25" max="6" step="0.05" value="1">
+        <input id="width" type="number"
+               min="0.01" step="0.05" value="1">
+      </div>
+
+      <div id="depthWrap">
+
+        <label>Profile Depth (in)</label>
+
+        <div class="input-pair">
+          <input id="depthRange" type="range"
+                 min="0.1" max="5" step="0.05" value="0.5">
+          <input id="depth" type="number"
+                 min="0.01" step="0.05" value="0.5">
+        </div>
+
+      </div>
+
+      <div id="bottomWrap" style="display:none">
+
+        <label>Bottom Width (in)</label>
+
+        <div class="input-pair">
+          <input id="bottomRange" type="range"
+                 min="0" max="6" step="0.05" value="0.5">
+          <input id="bottom" type="number"
+                 min="0" step="0.05" value="0.5">
+        </div>
+
+      </div>
+
+      <div id="wallWrap" style="display:none">
+
+        <label>Straight-Wall Height (in)</label>
+
+        <div class="input-pair">
+          <input id="wallRange" type="range"
+                 min="0" max="5" step="0.05" value="0.5">
+          <input id="wall" type="number"
+                 min="0" step="0.05" value="0.5">
+        </div>
+
+      </div>
+
+      <h3>Starting Stock</h3>
+
+      <label for="stock">Stock Cross-Section</label>
+
+      <select id="stock">
+        <option value="square">Square</option>
+        <option value="round">Round</option>
+        <option value="flat">Flat / Rectangular</option>
+      </select>
+
+      <label>Stock Width / Diameter (in)</label>
+
+      <div class="input-pair">
+        <input id="sizeRange" type="range"
+               min="0.125" max="6" step="0.025" value="0.625">
+        <input id="size" type="number"
+               min="0.01" step="0.025" value="0.625">
+      </div>
+
+      <div id="thickWrap" style="display:none">
+
+        <label>Stock Thickness (in)</label>
+
+        <div class="input-pair">
+          <input id="thickRange" type="range"
+                 min="0.125" max="4" step="0.025" value="0.5">
+          <input id="thick" type="number"
+                 min="0.01" step="0.025" value="0.5">
+        </div>
+
+      </div>
+
+      <h3>Flash Estimate</h3>
+
+      <label>Assumed Flash Thickness (in)</label>
+
+      <div class="input-pair">
+        <input id="flashRange" type="range"
+               min="0.03125" max="0.25"
+               step="0.03125" value="0.0625">
+        <input id="flash" type="number"
+               min="0.005" step="0.03125" value="0.0625">
+      </div>
+
+      <p class="muted note">
+        Excess material is modeled as two equal flash fins
+        extending from the die parting line.
+      </p>
+
+    </div>
+
+    <!-- RESULTS -->
+
+    <div class="results">
+
+      <div class="panel">
+
+        <h2>Cross-Section Comparison</h2>
+
+        <canvas id="preview"
+                width="850"
+                height="450"></canvas>
+
+        <div class="legend">
+
+          <span class="legend-item">
+            <span class="swatch stock-color"></span>
+            Starting Stock
+          </span>
+
+          <span class="legend-item">
+            <span class="swatch filled-color"></span>
+            Filled Cavity
+          </span>
+
+          <span class="legend-item">
+            <span class="swatch flash-color"></span>
+            Estimated Flash
+          </span>
+
+          <span class="legend-item">
+            <span class="swatch unfilled-color"></span>
+            Unfilled Cavity
+          </span>
+
+        </div>
+
+        <p class="muted note">
+          Both profiles use the same drawing scale.
+          The forged section is shown in a simplified bottom swage die. Flash and missing material are geometric estimates, not a metal-flow simulation.
+        </p>
+
+      </div>
+
+      <div class="panel">
+
+        <h2>Exact Mathematical Equivalents</h2>
+
+        <div class="metrics">
+
+          <div class="metric">
+            <small>Cavity Area</small>
+            <strong id="area">—</strong>
+          </div>
+
+          <div class="metric">
+            <small>Equivalent Square</small>
+            <strong id="square" class="teal">—</strong>
+          </div>
+
+          <div class="metric">
+            <small>Equivalent Round</small>
+            <strong id="round" class="teal">—</strong>
+          </div>
+
+          <div class="metric">
+            <small>Selected Stock Difference</small>
+            <strong id="difference">—</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="panel">
+
+        <h2>Material Balance</h2>
+
+        <div class="metrics">
+
+          <div class="metric">
+            <small>Excess / Flash Area</small>
+            <strong id="excess">—</strong>
+          </div>
+
+          <div class="metric">
+            <small>Flash Extension Per Side</small>
+            <strong id="extension">—</strong>
+          </div>
+
+          <div class="metric">
+            <small>Unfilled Cavity Area</small>
+            <strong id="deficit">—</strong>
+          </div>
+
+          <div class="metric">
+            <small>Unfilled Cavity Percentage</small>
+            <strong id="unfilled">—</strong>
+          </div>
+
+        </div>
+
+        <div id="status" class="status"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- STOCK SHORTLIST -->
+
+  <div class="panel" style="margin-top:18px">
+
+    <h2>Closest Standard Stock Sizes</h2>
+
+    <p class="muted note">
+      Stock sizes are ranked by their absolute percentage
+      difference in cross-sectional area.
+      Select any row to update the comparison and flash estimate.
+    </p>
+
+    <div class="tabs">
+
+      <button class="active" data-kind="all">
+        All Shapes
+      </button>
+
+      <button data-kind="square">
+        Square
+      </button>
+
+      <button data-kind="round">
+        Round
+      </button>
+
+      <button data-kind="flat">
+        Flat Bar
+      </button>
+
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Stock Size</th>
+            <th>Area (in²)</th>
+            <th>Difference</th>
+            <th>Flash / Unfilled</th>
+          </tr>
+        </thead>
+
+        <tbody id="stockList"></tbody>
+
+      </table>
+
+    </div>
+
+    <p class="muted note">
+      Sizes represent nominal fractional steel stock dimensions.
+      Availability depends on the supplier.
+    </p>
+
+  </div>
+
+</div>
+
+
+<script>
+(function () {
+
+  const $ = id => document.getElementById(id);
+  const PI = Math.PI;
+
+  let activeFilter = "all";
+
+  const sizes = [
+    0.125, 0.1875, 0.25, 0.3125,
+    0.375, 0.4375, 0.5, 0.5625,
+    0.625, 0.6875, 0.75, 0.8125,
+    0.875, 0.9375, 1, 1.125,
+    1.25, 1.375, 1.5, 1.625,
+    1.75, 1.875, 2, 2.25,
+    2.5, 2.75, 3, 3.5,
+    4, 5, 6
+  ];
+
+  const thicknesses = [
+    0.125, 0.1875, 0.25, 0.3125,
+    0.375, 0.5, 0.625, 0.75,
+    1, 1.25, 1.5, 2
+  ];
+
+  const widths = [
+    0.5, 0.625, 0.75, 0.875,
+    1, 1.25, 1.5, 1.75,
+    2, 2.5, 3, 3.5,
+    4, 5, 6
+  ];
+
+  function num(id) {
+    return parseFloat($(id).value) || 0;
+  }
+
+  function gcd(a, b) {
+    return b ? gcd(b, a % b) : a;
+  }
+
+  function fraction(value) {
+
+    const n = Math.round(value * 16);
+    const whole = Math.floor(n / 16);
+    const remainder = n % 16;
+
+    if (!remainder) {
+      return String(whole);
+    }
+
+    const divisor = gcd(remainder, 16);
+
+    const fractional =
+      (remainder / divisor) + "/" + (16 / divisor);
+
+    return whole
+      ? whole + " " + fractional
+      : fractional;
+
+  }
+
+  // CAVITY AREA
+
+  function cavityArea() {
+
+    const w = num("width");
+    const d = num("depth");
+    const b = Math.min(num("bottom"), w);
+    const h = num("wall");
+
+    switch ($("profile").value) {
+
+      case "half":
+        return PI * w * w / 8;
+
+      case "v":
+        return w * d / 2;
+
+      case "trap":
+        return (w + b) * d / 2;
+
+      case "u":
+        return w * h + PI * w * w / 8;
+
+      default:
+        return 0;
+
+    }
+
+  }
+
+  // STOCK AREA
+
+  function stockArea() {
+
+    const s = num("size");
+    const t = num("thick");
+    const shape = $("stock").value;
+
+    if (shape === "round") {
+      return PI * s * s / 4;
+    }
+
+    if (shape === "square") {
+      return s * s;
+    }
+
+    return s * t;
+
+  }
+
+  // STANDARD STOCK CATALOG
+
+  const catalog = [];
+
+  sizes.forEach(s => {
+
+    catalog.push({
+      kind: "square",
+      w: s,
+      h: s,
+      area: s * s,
+      label: fraction(s) + '" square'
+    });
+
+    catalog.push({
+      kind: "round",
+      w: s,
+      h: s,
+      area: PI * s * s / 4,
+      label: fraction(s) + '" round'
+    });
+
+  });
+
+  thicknesses.forEach(t => {
+
+    widths.forEach(w => {
+
+      if (w < t) return;
+
+      catalog.push({
+        kind: "flat",
+        w: w,
+        h: t,
+        area: w * t,
+        label:
+          fraction(t) + '" × ' +
+          fraction(w) + '" flat'
+      });
+
+    });
+
+  });
+
+  // DRAW PROFILE PATH
+
+  function profilePath(
+    ctx, x, top, w, d, b, h, shape, scale
+  ) {
+
+    const left = x - w * scale / 2;
+    const right = x + w * scale / 2;
+
+    ctx.beginPath();
+
+    if (shape === "half") {
+
+      const r = w * scale / 2;
+
+      ctx.moveTo(left, top);
+      ctx.lineTo(right, top);
+      ctx.arc(x, top, r, 0, PI, false);
+
+    }
+
+    if (shape === "v") {
+
+      ctx.moveTo(left, top);
+      ctx.lineTo(right, top);
+      ctx.lineTo(x, top + d * scale);
+
+    }
+
+    if (shape === "trap") {
+
+      ctx.moveTo(left, top);
+      ctx.lineTo(right, top);
+
+      ctx.lineTo(
+        x + b * scale / 2,
+        top + d * scale
+      );
+
+      ctx.lineTo(
+        x - b * scale / 2,
+        top + d * scale
+      );
+
+    }
+
+    if (shape === "u") {
+
+      const r = w * scale / 2;
+      const cy = top + h * scale;
+
+      ctx.moveTo(left, top);
+      ctx.lineTo(right, top);
+      ctx.lineTo(right, cy);
+      ctx.arc(x, cy, r, 0, PI, false);
+
+    }
+
+    ctx.closePath();
+
+  }
+
+  // CANVAS VISUALIZATION
+
+  function draw(area, stock) {
+
+    const canvas = $("preview");
+    const ctx = canvas.getContext("2d");
+
+    const CW = canvas.width;
+    const CH = canvas.height;
+
+    ctx.clearRect(0, 0, CW, CH);
+
+    ctx.fillStyle = "#fafafa";
+    ctx.fillRect(0, 0, CW, CH);
+
+    const w = num("width");
+    const d = num("depth");
+    const b = Math.min(num("bottom"), w);
+    const h = num("wall");
+
+    const s = num("size");
+    const t = num("thick");
+
+    const profile = $("profile").value;
+    const stockShape = $("stock").value;
+
+    const flash = Math.max(num("flash"), 0.0001);
+
+    const excess = Math.max(0, stock - area);
+
+    const fin = excess / (2 * flash);
+
+    const profileHeight =
+      profile === "half"
+        ? w / 2
+        : profile === "u"
+          ? h + w / 2
+          : d;
+
+    const stockHeight =
+      stockShape === "flat" ? t : s;
+
+    const scale = Math.min(
+      270 / Math.max(w, s, 0.001),
+      240 / Math.max(
+        profileHeight,
+        stockHeight,
+        0.001
+      )
+    );
+
+    const centerY = 210;
+
+    ctx.textAlign = "center";
+    ctx.font = "19px Arial";
+    ctx.fillStyle = "#607d8b";
+
+    ctx.fillText(
+      "STARTING STOCK",
+      205,
+      34
+    );
+
+    ctx.fillText(
+      "FORGED STOCK",
+      640,
+      34
+    );
+
+    // Starting stock
+
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#344c59";
+    ctx.fillStyle = "#8fa2af";
+
+    ctx.beginPath();
+
+    if (stockShape === "round") {
+
+      ctx.arc(
+        205,
+        centerY,
+        s * scale / 2,
+        0,
+        2 * PI
+      );
+
+    } else {
+
+      ctx.rect(
+        205 - s * scale / 2,
+        centerY - stockHeight * scale / 2,
+        s * scale,
+        stockHeight * scale
+      );
+
+    }
+
+    ctx.fill();
+    ctx.stroke();
+
+    // Finished stock shown seated in a bottom swage die
+
+    const x = 640;
+
+    const top =
+      centerY - profileHeight * scale / 2;
+
+    const left = x - w * scale / 2;
+    const right = x + w * scale / 2;
+
+    profilePath(
+      ctx,
+      x,
+      top,
+      w,
+      d,
+      b,
+      h,
+      profile,
+      scale
+    );
+
+    // Rectangular bottom swage die, with its top surface at the cavity mouth.
+    // Draw the die first; the cavity/forged stock is rendered on top of it.
+    const dieLeft = 460;
+    const dieRight = 820;
+    const dieBottom = Math.min(393, top + profileHeight * scale + 38);
+
+    ctx.beginPath();
+    ctx.rect(dieLeft, top, dieRight - dieLeft, Math.max(1, dieBottom - top));
+    ctx.fillStyle = "#dce5e7";
+    ctx.fill();
+    ctx.strokeStyle = "#839aa0";
+    ctx.lineWidth = 1.6;
+    ctx.stroke();
+
+    // Rebuild the cavity path: the previous path describes the die outline.
+    // Without this reset, the unfilled color floods the surrounding die.
+    profilePath(ctx, x, top, w, d, b, h, profile, scale);
+
+    // Start with unfilled cavity color
+    ctx.fillStyle = "#e9a0a0";
+    ctx.fill();
+
+    ctx.strokeStyle = "#344c59";
+    ctx.stroke();
+
+    // Available material fraction
+
+    const fillRatio =
+      area > 0
+        ? Math.min(1, stock / area)
+        : 0;
+
+    // Illustrative filling from bottom upward
+
+    ctx.save();
+
+    profilePath(
+      ctx,
+      x,
+      top,
+      w,
+      d,
+      b,
+      h,
+      profile,
+      scale
+    );
+
+    ctx.clip();
+
+    ctx.fillStyle = "#438691";
+
+    const fillHeight =
+      profileHeight *
+      scale *
+      Math.sqrt(fillRatio);
+
+    ctx.fillRect(
+      left - 2,
+      top + profileHeight * scale - fillHeight,
+      w * scale + 4,
+      fillHeight + 2
+    );
+
+    ctx.restore();
+
+    // Redraw cavity outline
+
+    profilePath(
+      ctx,
+      x,
+      top,
+      w,
+      d,
+      b,
+      h,
+      profile,
+      scale
+    );
+
+    ctx.strokeStyle = "#344c59";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Flash
+
+    if (fin > 0) {
+
+      const flashWidth = fin * scale;
+      const flashThickness = flash * scale;
+
+      const partingY = top;
+
+      ctx.fillStyle = "#e6a34c";
+      ctx.strokeStyle = "#b77932";
+      ctx.lineWidth = 1;
+
+      ctx.fillRect(
+        left - flashWidth,
+        partingY - flashThickness / 2,
+        flashWidth,
+        flashThickness
+      );
+
+      ctx.strokeRect(
+        left - flashWidth,
+        partingY - flashThickness / 2,
+        flashWidth,
+        flashThickness
+      );
+
+      ctx.fillRect(
+        right,
+        partingY - flashThickness / 2,
+        flashWidth,
+        flashThickness
+      );
+
+      ctx.strokeRect(
+        right,
+        partingY - flashThickness / 2,
+        flashWidth,
+        flashThickness
+      );
+
+    }
+
+    // Captions
+
+    ctx.fillStyle = "#607d8b";
+    ctx.font = "15px Arial";
+
+    ctx.fillText(
+      s.toFixed(3) + '" stock width',
+      205,
+      425
+    );
+
+    ctx.fillText(
+      w.toFixed(3) + '" swage width',
+      640,
+      425
+    );
+
+  }
+
+  // UPDATE CALCULATIONS
+
+  function update() {
+
+    const profile = $("profile").value;
+    const shape = $("stock").value;
+
+    $("depthWrap").style.display =
+      profile === "half" || profile === "u"
+        ? "none"
+        : "block";
+
+    $("bottomWrap").style.display =
+      profile === "trap" ? "block" : "none";
+
+    $("wallWrap").style.display =
+      profile === "u" ? "block" : "none";
+
+    $("thickWrap").style.display =
+      shape === "flat" ? "block" : "none";
+
+    const A = cavityArea();
+    const B = stockArea();
+
+    const flash = Math.max(num("flash"), 0.0001);
+
+    const difference =
+      A > 0 ? 100 * (B / A - 1) : 0;
+
+    const excess = Math.max(0, B - A);
+    const deficit = Math.max(0, A - B);
+
+    const extension = excess / (2 * flash);
+
+    const unfilled =
+      A > 0 ? 100 * deficit / A : 0;
+
+    $("area").textContent =
+      A.toFixed(4) + " in²";
+
+    $("square").textContent =
+      Math.sqrt(A).toFixed(4) + '"';
+
+    $("round").textContent =
+      Math.sqrt(4 * A / PI).toFixed(4) + '"';
+
+    $("difference").textContent =
+      (difference >= 0 ? "+" : "") +
+      difference.toFixed(1) + "%";
+
+    $("excess").textContent =
+      excess.toFixed(4) + " in²";
+
+    $("extension").textContent =
+      extension.toFixed(3) + '"';
+
+    $("deficit").textContent =
+      deficit.toFixed(4) + " in²";
+
+    $("unfilled").textContent =
+      unfilled.toFixed(1) + "%";
+
+    // Material balance explanation
+
+    if (difference > 0.00001) {
+
+      $("status").textContent =
+        "Oversized stock: The orange fins illustrate " +
+        "the excess cross-sectional area as possible " +
+        "flash, assuming the forged length remains unchanged.";
+
+    } else if (difference < -0.00001) {
+
+      $("status").textContent =
+        "Undersized stock: The pink region represents " +
+        "the missing material needed to fill the cavity " +
+        "at unchanged length. Its location is illustrative.";
+
+    } else {
+
+      $("status").textContent =
+        "The stock and cavity areas match mathematically. " +
+        "No excess or deficit is calculated.";
+
+    }
+
+    // Standard stock shortlist
+
+    const options = catalog.filter(c =>
+      activeFilter === "all" ||
+      c.kind === activeFilter
+    );
+
+    options.sort((a, b) => {
+
+      const da = Math.abs(a.area - A);
+      const db = Math.abs(b.area - A);
+
+      if (Math.abs(da - db) > 1e-9) {
+        return da - db;
+      }
+
+      return b.area - a.area;
+
+    });
+
+    const body = $("stockList");
+
+    body.innerHTML = "";
+
+    options.slice(0, 10).forEach(c => {
+
+      const row = document.createElement("tr");
+
+      const delta =
+        A > 0 ? 100 * (c.area / A - 1) : 0;
+
+      const candidateFlash =
+        Math.max(0, c.area - A) / (2 * flash);
+
+      const missing =
+        A > 0
+          ? Math.max(0, 100 * (A - c.area) / A)
+          : 0;
+
+      const values = [
+        c.label,
+        c.area.toFixed(4),
+        (delta >= 0 ? "+" : "") +
+          delta.toFixed(1) + "%",
+        delta >= 0
+          ? 'Flash ' + candidateFlash.toFixed(3) + '"'
+          : 'Unfilled ' + missing.toFixed(1) + "%"
+      ];
+
+      values.forEach((value, index) => {
+
+        const cell = document.createElement("td");
+
+        cell.textContent = value;
+
+        if (index === 0) {
+          cell.style.fontWeight = "600";
+        }
+
+        row.appendChild(cell);
+
+      });
+
+      const selected =
+        shape === c.kind &&
+        Math.abs(num("size") - c.w) < 0.00001 &&
+        (
+          shape !== "flat" ||
+          Math.abs(num("thick") - c.h) < 0.00001
+        );
+
+      if (selected) {
+        row.classList.add("selected");
+      }
+
+      row.addEventListener("click", () => {
+
+        $("stock").value = c.kind;
+
+        $("size").value = c.w;
+        $("sizeRange").value = c.w;
+
+        $("thick").value = c.h;
+        $("thickRange").value = c.h;
+
+        update();
+
+      });
+
+      body.appendChild(row);
+
+    });
+
+    draw(A, B);
+
+  }
+
+  // LINK SLIDERS AND NUMBER FIELDS
+
+  [
+    ["width", "widthRange"],
+    ["depth", "depthRange"],
+    ["bottom", "bottomRange"],
+    ["wall", "wallRange"],
+    ["size", "sizeRange"],
+    ["thick", "thickRange"],
+    ["flash", "flashRange"]
+  ].forEach(pair => {
+
+    const number = $(pair[0]);
+    const slider = $(pair[1]);
+
+    number.addEventListener("input", () => {
+      slider.value = number.value;
+      update();
+    });
+
+    slider.addEventListener("input", () => {
+      number.value = slider.value;
+      update();
+    });
+
+  });
+
+  $("profile").addEventListener("change", update);
+  $("stock").addEventListener("change", update);
+
+  // SHORTLIST FILTER BUTTONS
+
+  document.querySelectorAll("[data-kind]").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      activeFilter = button.dataset.kind;
+
+      document.querySelectorAll("[data-kind]").forEach(b => {
+        b.classList.toggle("active", b === button);
+      });
+
+      update();
+
+    });
+
+  });
+
+  // INITIALIZE
+
+  update();
+
+})();
+</script>
+</div>
+<footer><div class="footer-inner"><span>© <span id="year">2026</span> Adam Hawk · Design & Fabrication Tools</span><a href="/">← Back to All Tools</a></div></footer>
+<script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+</body></html>
