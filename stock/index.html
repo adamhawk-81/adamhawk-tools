@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Interactive stock drawing calculator for forging square, rectangular, round and octagonal steel stock.">
+<title>Stock Drawing Calculator | Adam Hawk Tools</title>
+<style>body{margin:0;background:#fff}</style>
+</head>
+<body>
+<div id="drawing-tool">
+<style>
+#drawing-tool{font-family:Arial,Helvetica,sans-serif;color:#333;background:#fff;max-width:1120px;margin:auto;line-height:1.45}
+#drawing-tool *{box-sizing:border-box}
+#drawing-tool h2{font-size:26px;font-weight:600;margin:0 0 6px}
+#drawing-tool p{margin:0 0 18px;color:#666;font-size:14px}
+#drawing-tool .dt-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px}
+#drawing-tool .dt-panel{border:1px solid #ddd;border-radius:8px;padding:20px;min-width:0}
+#drawing-tool h3{font-size:17px;margin:0 0 16px}
+#drawing-tool .dt-field{margin-bottom:17px}
+#drawing-tool label{display:block;font-size:13px;font-weight:600;margin-bottom:7px}
+#drawing-tool select,#drawing-tool input[type=number]{width:100%;background:white;border:1px solid #c8c8c8;border-radius:5px;color:#333;padding:9px;font-size:14px}
+#drawing-tool .dt-pair{display:grid;grid-template-columns:minmax(0,1fr) 100px;gap:12px;align-items:center}
+#drawing-tool input[type=range]{width:100%;accent-color:#1BA597;cursor:pointer}
+#drawing-tool .dt-actions{display:flex;gap:10px;margin-top:10px}
+#drawing-tool button{border:1px solid #1BA597;background:#1BA597;color:white;padding:10px 16px;border-radius:5px;cursor:pointer;font-weight:600}
+#drawing-tool button.dt-secondary{background:#fff;color:#444;border-color:#bbb}
+#drawing-tool .dt-results{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+#drawing-tool .dt-result{border:1px solid #ddd;border-radius:6px;padding:12px;min-width:0}
+#drawing-tool .dt-result.primary{border-color:#1BA597;background:#f2fbf9}
+#drawing-tool .dt-result small{display:block;font-size:12px;color:#666}
+#drawing-tool .dt-result strong{display:block;font-size:22px;font-weight:600;overflow-wrap:anywhere}
+#drawing-tool .dt-view{border:1px solid #e2e2e2;border-radius:6px;margin:12px 0;padding:10px}
+#drawing-tool .dt-view-title{font-size:12px;font-weight:600;color:#666;margin-bottom:4px}
+#drawing-tool svg{width:100%;height:auto;display:block}
+#drawing-tool .dt-note{font-size:12px;color:#777;margin-top:12px}
+#drawing-tool .dt-error{font-size:13px;color:#a33;min-height:18px}
+@media(max-width:760px){
+#drawing-tool .dt-grid{grid-template-columns:1fr}
+#drawing-tool .dt-panel{padding:15px}
+}
+@media(max-width:420px){
+#drawing-tool .dt-pair{grid-template-columns:minmax(0,1fr) 82px}
+#drawing-tool .dt-result strong{font-size:18px}
+}
+
+/* Equation introduction */
+#drawing-tool .dt-lesson{border:1px solid #d9e3e1;border-radius:8px;padding:22px;margin:18px 0 26px;background:#fff;color:#333}
+#drawing-tool .dt-lesson h3{font-size:20px;margin:0 0 12px}
+#drawing-tool .dt-lesson h4{font-size:16px;margin:23px 0 8px}
+#drawing-tool .dt-lesson p{line-height:1.6;margin:8px 0}
+#drawing-tool .dt-lesson .dt-formula{background:#f2fbf9;border-left:3px solid #1BA597;padding:16px 10px;margin:12px 0;text-align:center;font-size:clamp(17px,3.5vw,24px);font-weight:600;overflow-x:auto}
+#drawing-tool .dt-lesson .dt-example{background:#f7f8f8;border-radius:6px;padding:13px 15px;margin:12px 0}
+#drawing-tool .dt-lesson table{border-collapse:collapse;width:100%;font-size:14px}
+#drawing-tool .dt-lesson th,#drawing-tool .dt-lesson td{border-bottom:1px solid #e4e4e4;text-align:left;padding:9px 8px}
+#drawing-tool .dt-lesson th{background:#f7f8f8}
+#drawing-tool .dt-lesson details{border-top:1px solid #ddd;margin-top:20px;padding-top:14px}
+#drawing-tool .dt-lesson summary{cursor:pointer;font-weight:650;color:#167e75}
+#drawing-tool .dt-lesson .dt-muted{font-size:13px;color:#666}
+
+/* adamhawk-tools.com visual system */
+#drawing-tool{--teal:#438691;--teal-dark:#306873;--ink:#24383c;--muted:#62767a;--line:#d9e4e5;--surface:#f5f9f9;--soft:#eaf3f4;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--ink);max-width:1160px;padding:clamp(18px,4vw,44px);line-height:1.55}
+#drawing-tool h2{font-size:clamp(29px,4vw,40px);letter-spacing:-.035em;line-height:1.15;color:var(--ink);margin:0 0 14px}
+#drawing-tool h3{font-size:19px;letter-spacing:-.015em;color:var(--ink)}
+#drawing-tool p{font-size:14px;color:var(--muted);line-height:1.65}
+#drawing-tool>.dt-eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.16em;font-weight:750;color:var(--teal);margin-bottom:12px}
+#drawing-tool .dt-lesson{border:1px solid var(--line);border-radius:14px;padding:clamp(20px,3vw,32px);margin:26px 0 30px;box-shadow:0 3px 14px rgba(25,66,70,.035)}
+#drawing-tool .dt-lesson h3{font-size:22px}
+#drawing-tool .dt-lesson h4{color:var(--ink)}
+#drawing-tool .dt-lesson .dt-formula{background:var(--soft);border-left:4px solid var(--teal);border-radius:0 7px 7px 0;color:var(--teal-dark)}
+#drawing-tool .dt-lesson .dt-example{background:var(--surface);border:1px solid var(--line);border-radius:9px}
+#drawing-tool .dt-lesson summary{color:var(--teal-dark)}
+#drawing-tool .dt-lesson th{background:var(--surface)}
+#drawing-tool .dt-grid{gap:20px;align-items:start}
+#drawing-tool .dt-panel{border:1px solid var(--line);border-radius:14px;padding:clamp(18px,2.5vw,28px);box-shadow:0 3px 14px rgba(25,66,70,.035)}
+#drawing-tool .dt-panel h3:not(:first-child){padding-top:22px;border-top:1px solid var(--line);margin-top:26px}
+#drawing-tool label{font-size:12px;letter-spacing:.01em;color:var(--ink)}
+#drawing-tool select,#drawing-tool input[type=number]{border:1px solid #cbdadc;border-radius:8px;min-height:40px;font:inherit;font-size:14px;transition:border-color .15s,box-shadow .15s}
+#drawing-tool select:focus,#drawing-tool input[type=number]:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(67,134,145,.14)}
+#drawing-tool input[type=range]{accent-color:var(--teal)}
+#drawing-tool button{background:var(--teal);border-color:var(--teal);border-radius:8px;min-height:40px;transition:background .15s,transform .15s}
+#drawing-tool button:hover{background:var(--teal-dark);transform:translateY(-1px)}
+#drawing-tool button.dt-secondary{background:white;border-color:var(--line);color:var(--teal-dark)}
+#drawing-tool button.dt-secondary:hover{background:var(--soft)}
+#drawing-tool .dt-result{border-color:var(--line);background:var(--surface);border-radius:9px;padding:14px}
+#drawing-tool .dt-result.primary{background:var(--soft);border-color:var(--teal)}
+#drawing-tool .dt-result small{color:var(--muted);font-size:11px;line-height:1.4}
+#drawing-tool .dt-result strong{font-size:clamp(17px,2.2vw,22px);color:var(--ink);margin-top:5px;font-variant-numeric:tabular-nums}
+#drawing-tool .dt-result.primary strong{color:var(--teal-dark)}
+#drawing-tool .dt-view{border-color:var(--line);border-radius:9px;padding:14px;background:#fff;margin-top:17px}
+#drawing-tool .dt-view-title{color:var(--muted);letter-spacing:.02em;margin-bottom:10px}
+#drawing-tool .dt-note{line-height:1.6}
+#drawing-tool .dt-status{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--teal-dark);border:1px solid var(--line);border-radius:100px;padding:5px 10px;background:var(--soft);margin:0 0 12px}
+@media(max-width:760px){#drawing-tool{padding:18px 12px}#drawing-tool .dt-grid{grid-template-columns:1fr}#drawing-tool .dt-panel{padding:18px}}
+@media(max-width:420px){#drawing-tool .dt-results{gap:8px}#drawing-tool .dt-result{padding:10px}#drawing-tool .dt-result strong{font-size:17px}}
+
+</style>
+
+<div class="dt-eyebrow">Interactive Workshop Resources</div>
+<div class="dt-status">Free Tool</div>
+<h2>Stock Drawing Calculator</h2>
+
+<section class="dt-lesson">
+<h3>How the Calculation Works</h3>
+<p>When forging steel from one cross-sectional size to another, the material changes shape, but its total volume remains approximately the same. As the cross-sectional area decreases, the length increases. This is the principle of <strong>conservation of volume</strong>.</p>
+
+<h4>1. Calculate the starting volume</h4>
+<p>For square or rectangular stock, multiply width, height (thickness), and length:</p>
+<div class="dt-formula">W × H × L = V</div>
+<p><strong>W</strong> = width; <strong>H</strong> = height (thickness); <strong>L</strong> = length; <strong>V</strong> = volume.</p>
+<div class="dt-example">
+<p><strong>Example:</strong> A 1" × 1" square bar, 4" long:</p>
+<p>1" × 1" × 4" = <strong>4 in³</strong></p>
+</div>
+
+<h4>2. Conservation of volume</h4>
+<p>During forging, the steel is redistributed rather than intentionally removed. Ignoring material loss, the original and finished volumes are equal:</p>
+<div class="dt-formula">V<sub>starting</sub> = V<sub>finished</sub></div>
+
+<h4>3. Calculate the finished length</h4>
+<p>Divide the original volume by the finished cross-sectional area (<strong>A</strong>):</p>
+<div class="dt-formula">L<sub>finished</sub> = V<sub>starting</sub> ÷ A<sub>finished</sub></div>
+<div class="dt-example">
+<p><strong>Example:</strong> Forge a 1" square bar, 4" long, into a ¾" square bar.</p>
+<p>Finished area: 0.75" × 0.75" = <strong>0.5625 in²</strong></p>
+<p>Finished length: 4 in³ ÷ 0.5625 in² = <strong>7.111"</strong></p>
+<p>The bar increases from 4" to approximately 7.111", a <strong>77.8% increase</strong> in length.</p>
+</div>
+
+<details>
+<summary>Additional reference: stock shapes and material allowance</summary>
+<h4>4. Cross-sectional area formulas</h4>
+<p>For shapes other than squares and rectangles, calculate the cross-sectional area first, then multiply it by length to find volume: <strong>V = A × L</strong>.</p>
+<table>
+<thead><tr><th>Stock shape</th><th>Cross-sectional area (A)</th></tr></thead>
+<tbody>
+<tr><td>Square</td><td>W²</td></tr>
+<tr><td>Rectangle</td><td>W × H</td></tr>
+<tr><td>Round</td><td>π × D² ÷ 4</td></tr>
+<tr><td>Regular octagon</td><td>2 × (√2 − 1) × F²</td></tr>
+</tbody>
+</table>
+<p class="dt-muted"><strong>D</strong> = diameter; <strong>F</strong> = distance across flats of a regular octagon.</p>
+
+<h4>5. Accounting for material loss</h4>
+<p>Scale, cleanup, and finishing may reduce the amount of usable steel. The calculator can add an extra percentage of starting stock:</p>
+<div class="dt-formula">L<sub>prepare</sub> = L<sub>required</sub> × (1 + P ÷ 100)</div>
+<p><strong>P</strong> = additional material allowance (%). For a theoretical starting length of 4" and a 5% allowance:</p>
+<div class="dt-example"><p>4" × 1.05 = <strong>4.200"</strong> to prepare.</p></div>
+</details>
+
+<p class="dt-muted"><strong>Important:</strong> These are theoretical calculations for uniform cross-sections. Actual forging may produce scale loss, uneven deformation, and dimensional variation.</p>
+</section>
+
+<p>Explore how stock length changes when forging between square, rectangular, round, and octagonal cross-sections. All dimensions are in inches.</p>
+
+<div class="dt-grid">
+<section class="dt-panel">
+<h3>Starting Stock</h3>
+<div class="dt-field">
+<label for="dt-from-shape">Cross-section shape</label>
+<select id="dt-from-shape">
+<option value="square" selected>Square</option>
+<option value="rectangle">Rectangle</option>
+<option value="round">Round</option>
+<option value="octagon">Octagon</option>
+</select>
+</div>
+<div class="dt-field">
+<label id="dt-from-size-label" for="dt-from-size">Side width (in)</label>
+<div class="dt-pair">
+<input id="dt-from-size-r" type="range" min="0.125" max="4" step="0.0625" value="1">
+<input id="dt-from-size" type="number" min="0.001" step="0.0625" value="1">
+</div>
+</div>
+<div class="dt-field" id="dt-from-height-row">
+<label for="dt-from-height">Height (in, rectangle only)</label>
+<div class="dt-pair">
+<input id="dt-from-height-r" type="range" min="0.125" max="4" step="0.0625" value="1">
+<input id="dt-from-height" type="number" min="0.001" step="0.0625" value="1">
+</div>
+</div>
+<div class="dt-field">
+<label for="dt-from-length">Starting length (in)</label>
+<div class="dt-pair">
+<input id="dt-from-length-r" type="range" min="0.25" max="36" step="0.25" value="4">
+<input id="dt-from-length" type="number" min="0.001" step="0.25" value="4">
+</div>
+</div>
+
+<h3>Finished Stock</h3>
+<div class="dt-field">
+<label for="dt-to-shape">Cross-section shape</label>
+<select id="dt-to-shape">
+<option value="square" selected>Square</option>
+<option value="rectangle">Rectangle</option>
+<option value="round">Round</option>
+<option value="octagon">Octagon</option>
+</select>
+</div>
+<div class="dt-field">
+<label id="dt-to-size-label" for="dt-to-size">Side width (in)</label>
+<div class="dt-pair">
+<input id="dt-to-size-r" type="range" min="0.125" max="4" step="0.0625" value="0.75">
+<input id="dt-to-size" type="number" min="0.001" step="0.0625" value="0.75">
+</div>
+</div>
+<div class="dt-field" id="dt-to-height-row">
+<label for="dt-to-height">Height (in, rectangle only)</label>
+<div class="dt-pair">
+<input id="dt-to-height-r" type="range" min="0.125" max="4" step="0.0625" value="0.75">
+<input id="dt-to-height" type="number" min="0.001" step="0.0625" value="0.75">
+</div>
+</div>
+<div class="dt-field">
+<label for="dt-allowance">Extra material allowance (%)</label>
+<div class="dt-pair">
+<input id="dt-allowance-r" type="range" min="0" max="25" step="1" value="0">
+<input id="dt-allowance" type="number" min="0" max="100" step="1" value="0">
+</div>
+</div>
+<div class="dt-actions">
+<button type="button" id="dt-reset" class="dt-secondary">Reset</button>
+</div>
+</section>
+
+<section class="dt-panel">
+<h3>Calculated Results</h3>
+<div class="dt-error" id="dt-error" role="status"></div>
+<div class="dt-results">
+<div class="dt-result primary"><small>Finished length</small><strong id="dt-finished-length">7.111 in</strong></div>
+<div class="dt-result"><small>Length change</small><strong id="dt-length-change">+77.8%</strong></div>
+<div class="dt-result"><small>Starting area</small><strong id="dt-from-area">1.000 in²</strong></div>
+<div class="dt-result"><small>Finished area</small><strong id="dt-to-area">0.563 in²</strong></div>
+<div class="dt-result"><small>Volume (unchanged)</small><strong id="dt-volume">4.000 in³</strong></div>
+<div class="dt-result"><small>Starting length for target with allowance</small><strong id="dt-with-allowance">4.000 in</strong></div>
+</div>
+
+<div class="dt-view">
+<div class="dt-view-title">Cross-sections, relative scale</div>
+<svg viewBox="0 0 520 205" role="img" aria-label="Starting and finished cross sections drawn to the same scale">
+<line x1="260" y1="14" x2="260" y2="173" stroke="#e4e4e4"/>
+<g id="dt-from-drawing">
+<rect id="dt-from-rect" fill="#c6c6c6" stroke="#555" stroke-width="2"/>
+<circle id="dt-from-circle" fill="#c6c6c6" stroke="#555" stroke-width="2"/>
+<polygon id="dt-from-oct" fill="#c6c6c6" stroke="#555" stroke-width="2"/>
+</g>
+<g id="dt-to-drawing">
+<rect id="dt-to-rect" fill="#c6c6c6" stroke="#555" stroke-width="2"/>
+<circle id="dt-to-circle" fill="#c6c6c6" stroke="#555" stroke-width="2"/>
+<polygon id="dt-to-oct" fill="#c6c6c6" stroke="#555" stroke-width="2"/>
+</g>
+<text x="130" y="187" font-size="13" fill="#555" text-anchor="middle">Starting</text>
+<text x="390" y="187" font-size="13" fill="#555" text-anchor="middle">Finished</text>
+</svg>
+</div>
+
+<div class="dt-view">
+<div class="dt-view-title">Length comparison, schematic bars</div>
+<svg viewBox="0 0 520 155" role="img" aria-label="Comparison of starting and finished lengths">
+<text x="10" y="18" font-size="12" fill="#555">Starting</text>
+<rect id="dt-start-bar" x="10" y="29" height="28" fill="#c6c6c6" stroke="#555"/>
+<text id="dt-start-bar-label" x="10" y="72" font-size="12" fill="#555"></text>
+<text x="10" y="93" font-size="12" fill="#555">Finished</text>
+<rect id="dt-end-bar" x="10" y="104" height="28" fill="#a9d4d8" stroke="#438691"/>
+<text id="dt-end-bar-label" x="10" y="148" font-size="12" fill="#555"></text>
+</svg>
+</div>
+
+<p class="dt-note">Based on conservation of volume: starting area × starting length = finished area × finished length. Octagon measurements are across flats. The model assumes a uniform finished section and does not predict scale loss, forging inefficiency, or localized deformation. Allowance is applied to the theoretical starting length required for the calculated finished piece.</p>
+</section>
+</div>
+
+<script>
+(function(){
+'use strict';
+var root=document.getElementById('drawing-tool');
+if(!root)return;
+
+function el(id){return root.querySelector('#dt-'+id)}
+function n(id){return parseFloat(el(id).value)}
+function fmt(x,d){return isFinite(x)?x.toFixed(d===undefined?3:d):'--'}
+
+var keys=['from-size','from-height','from-length','to-size','to-height','allowance'];
+
+keys.forEach(function(key){
+ var field=el(key),slider=el(key+'-r');
+ function fromSlider(){field.value=slider.value;update();}
+ function fromNumber(){
+  var x=parseFloat(field.value);
+  if(isFinite(x))slider.value=Math.max(+slider.min,Math.min(+slider.max,x));
+  update();
+ }
+ slider.addEventListener('input',fromSlider);
+ slider.addEventListener('change',fromSlider);
+ field.addEventListener('input',fromNumber);
+ field.addEventListener('change',fromNumber);
+});
+
+function area(shape,s,h){
+ if(shape==='square')return s*s;
+ if(shape==='rectangle')return s*h;
+ if(shape==='round')return Math.PI*s*s/4;
+ return 2*(Math.SQRT2-1)*s*s;
+}
+
+function dims(shape,s,h){
+ if(shape==='rectangle')return [s,h];
+ return [s,s];
+}
+
+function fieldVisibility(side){
+ var shape=el(side+'-shape').value;
+ el(side+'-height-row').style.display='block';
+ el(side+'-height-row').style.opacity=shape==='rectangle'?'1':'0.55';
+ el(side+'-height').disabled=shape!=='rectangle';
+ el(side+'-height-r').disabled=shape!=='rectangle';
+ el(side+'-size-label').textContent=
+  shape==='round'?'Diameter (in)':
+  shape==='octagon'?'Across flats (in)':
+  shape==='rectangle'?'Width (in)':'Side width (in)';
+}
+
+function octPoints(cx,cy,flat,scale){
+ var ap=flat*scale/2,rad=ap/Math.cos(Math.PI/8);
+ var points=[];
+ for(var i=0;i<8;i++){
+  var a=Math.PI/8+i*Math.PI/4;
+  points.push((cx+rad*Math.cos(a)).toFixed(2)+','+
+              (cy+rad*Math.sin(a)).toFixed(2));
+ }
+ return points.join(' ');
+}
+
+function draw(side,shape,s,h,scale,cx){
+ var rect=el(side+'-rect');
+ var circle=el(side+'-circle');
+ var oct=el(side+'-oct');
+
+ rect.style.display=shape==='square'||shape==='rectangle'?'':'none';
+ circle.style.display=shape==='round'?'':'none';
+ oct.style.display=shape==='octagon'?'':'none';
+
+ var wh=dims(shape,s,h);
+ rect.setAttribute('x',cx-wh[0]*scale/2);
+ rect.setAttribute('y',93-wh[1]*scale/2);
+ rect.setAttribute('width',wh[0]*scale);
+ rect.setAttribute('height',wh[1]*scale);
+ circle.setAttribute('cx',cx);
+ circle.setAttribute('cy',93);
+ circle.setAttribute('r',s*scale/2);
+ oct.setAttribute('points',octPoints(cx,93,s,scale));
+}
+
+function update(){
+ fieldVisibility('from');
+ fieldVisibility('to');
+
+ var fs=el('from-shape').value;
+ var ts=el('to-shape').value;
+ var sw=n('from-size');
+ var sh=n('from-height');
+ var tw=n('to-size');
+ var th=n('to-height');
+ var L=n('from-length');
+ var allow=n('allowance');
+
+ var valid=sw>0&&tw>0&&L>0&&allow>=0&&isFinite(allow)&&
+  (fs!=='rectangle'||sh>0)&&(ts!=='rectangle'||th>0);
+
+ el('error').textContent=valid?'':'Enter positive dimensions and a nonnegative allowance.';
+
+ if(!valid){
+  ['finished-length','length-change','from-area','to-area','volume','with-allowance']
+   .forEach(function(id){el(id).textContent='--'});
+  return;
+ }
+
+ var A1=area(fs,sw,sh);
+ var A2=area(ts,tw,th);
+ var vol=A1*L;
+ var finish=vol/A2;
+ var change=(finish/L-1)*100;
+ var needed=finish*A2/A1*(1+allow/100);
+
+ el('finished-length').textContent=fmt(finish)+' in';
+ el('length-change').textContent=(change>=0?'+':'')+fmt(change,1)+'%';
+ el('from-area').textContent=fmt(A1)+' in²';
+ el('to-area').textContent=fmt(A2)+' in²';
+ el('volume').textContent=fmt(vol)+' in³';
+ el('with-allowance').textContent=fmt(needed)+' in';
+
+ var maxDim=Math.max(sw,fs==='rectangle'?sh:sw,tw,ts==='rectangle'?th:tw);
+ var scale=Math.min(120/maxDim,120);
+ draw('from',fs,sw,sh,scale,130);
+ draw('to',ts,tw,th,scale,390);
+
+ var maxL=Math.max(L,finish);
+ var barScale=470/maxL;
+ el('start-bar').setAttribute('width',Math.max(1,L*barScale));
+ el('end-bar').setAttribute('width',Math.max(1,finish*barScale));
+ el('start-bar-label').textContent=fmt(L)+' in';
+ el('end-bar-label').textContent=fmt(finish)+' in';
+}
+
+['from-shape','to-shape'].forEach(function(k){
+ el(k).addEventListener('change',update);
+});
+
+el('reset').addEventListener('click',function(){
+ el('from-shape').value='square';
+ el('to-shape').value='square';
+ var values={
+  'from-size':1,
+  'from-height':1,
+  'from-length':4,
+  'to-size':0.75,
+  'to-height':0.75,
+  'allowance':0
+ };
+ keys.forEach(function(k){
+  el(k).value=values[k];
+  el(k+'-r').value=values[k];
+ });
+ update();
+});
+
+try{update()}catch(err){
+ var e=document.getElementById('dt-error');
+ if(e)e.textContent='Calculation error: '+err.message;
+}
+})();
+</script>
+</div>
+</body>
+</html>
