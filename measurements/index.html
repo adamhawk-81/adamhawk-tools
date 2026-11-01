@@ -1,0 +1,81 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#438691"><title>Length &amp; Measurement Converter | Adam Hawk Tools</title><style>*{box-sizing:border-box}body{margin:0;background:#fff;color:#263338;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;line-height:1.55}a{color:inherit}header{border-bottom:3px solid #438691}.header-inner{max-width:1220px;margin:auto;padding:21px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}.brand{font-size:19px;font-weight:750;letter-spacing:.075em;text-decoration:none;line-height:1.3}.brand span{display:block;font-size:11px;font-weight:500;letter-spacing:.15em;color:#62767c;margin-top:4px}.topnav{display:flex;gap:22px;align-items:center;flex-wrap:wrap}.topnav a{font-size:13px;text-decoration:none;font-weight:600;color:#3d5055}.topnav a:hover{color:#438691}footer{border-top:1px solid #d5e0e2;padding:24px 28px 35px;color:#687a80;font-size:12px}.footer-inner{max-width:1164px;margin:auto;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}footer a{color:#438691;text-decoration:none}@media(max-width:600px){.header-inner{padding:19px;gap:12px}.topnav{gap:14px}}
+
+/* Industrial site design: visual-only refinement, October 2026 */
+header{position:relative;border-bottom:3px solid #438691}
+.header-inner:before{content:"";position:absolute;left:12px;top:19px;bottom:19px;width:4px;background:#438691;border-radius:8px}
+.brand{font-weight:800}
+footer{border-top:5px solid #293d43}@media(max-width:600px){.header-inner:before{left:5px;top:16px;bottom:16px}}@media(min-width:781px){.header-inner{max-width:1320px;padding-left:clamp(44px,5vw,82px);padding-right:clamp(44px,5vw,82px)}.footer-inner{max-width:1156px}}@media(max-width:780px){.header-inner{padding-left:24px;padding-right:24px}}@media(max-width:440px){.header-inner{padding-left:20px;padding-right:20px}}</style><style>
+#measurement-tool{--accent:#438691;--ink:#263338;--muted:#62767c;--border:#d5e0e2;--dark:#101518;font:15px "Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--ink);background:#fff;max-width:1220px;margin:auto;padding:30px 28px 65px}
+#measurement-tool *{box-sizing:border-box}
+#measurement-tool h2{font-size:25px;font-weight:650;margin:0 0 12px}
+#measurement-tool h3{font-size:17px;font-weight:700;margin:0 0 18px;color:#263338}
+#measurement-tool p{color:var(--muted);line-height:1.6}
+#measurement-tool .tool-intro{padding:25px 0 27px;border-bottom:1px solid var(--border);margin-bottom:25px}
+#measurement-tool .tool-intro .eyebrow{color:var(--accent);font-size:11px;font-weight:750;letter-spacing:.17em;margin:0 0 11px}
+#measurement-tool .tool-intro h1{font-size:clamp(31px,5vw,49px);font-weight:650;letter-spacing:-.04em;line-height:1.13;margin:0}
+#measurement-tool .tool-intro h1 span{color:var(--accent)}
+#measurement-tool .tool-intro>p:last-child{max-width:720px;margin:15px 0 0}
+#measurement-tool .layout{display:grid;grid-template-columns:330px minmax(0,1fr);gap:22px;align-items:start}
+#measurement-tool .panel{border:1px solid var(--border);padding:22px;margin-bottom:20px;background:#fff}
+#measurement-tool label{display:block;margin:17px 0 7px;font-size:13px;font-weight:600}
+#measurement-tool .pair{display:flex;gap:12px;align-items:center}
+#measurement-tool input[type=range]{flex:1;min-width:0;accent-color:var(--accent)}
+#measurement-tool input[type=number],#measurement-tool select{padding:9px;border:1px solid #c9d6d9;border-radius:3px;background:#fff;color:var(--ink);font:inherit}
+#measurement-tool input[type=number]{width:90px}
+#measurement-tool select{width:100%}
+#measurement-tool input:focus-visible,#measurement-tool select:focus-visible,#measurement-tool button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#measurement-tool button{background:var(--accent);color:white;border:1px solid var(--accent);border-radius:3px;padding:12px 18px;margin-top:20px;cursor:pointer;font:inherit;font-weight:650}
+#measurement-tool button:hover{background:#316a73}
+#measurement-tool .results{display:grid;grid-template-columns:1fr 1fr}
+#measurement-tool .metric{padding:15px 10px;border-bottom:1px solid var(--border)}
+#measurement-tool .metric span{display:block;font-size:12px;color:var(--muted)}
+#measurement-tool .metric strong{display:block;font-size:21px;font-weight:650;margin-top:6px;overflow-wrap:anywhere}
+#measurement-tool .metric.primary strong{color:var(--accent)}
+#measurement-tool svg{width:100%;height:auto;display:block;background:var(--dark);border:1px solid #334147;border-radius:3px;margin:8px 0 16px}
+#measurement-tool .note{font-size:12px}
+#measurement-tool .viz-label{font-size:12px;font-weight:700;margin:16px 0 6px}
+#measurement-tool .warning{color:#a34e20}
+#measurement-tool .ft-lesson{border:1px solid var(--border);border-radius:3px;padding:23px;margin:18px 0 26px;background:#f7fafb}
+#measurement-tool .ft-lesson h3{font-size:20px;font-weight:700;margin:0 0 12px}
+#measurement-tool .ft-lesson h4{font-size:16px;font-weight:700;margin:22px 0 8px}
+#measurement-tool .ft-lesson p{font-size:14px;line-height:1.6;margin:8px 0}
+#measurement-tool .ft-lesson .ft-eqn{background:#eaf3f4;border-left:3px solid var(--accent);padding:16px 12px;text-align:center;margin:12px 0;font-size:clamp(16px,3vw,22px);font-weight:600;overflow-x:auto}
+#measurement-tool .ft-lesson .ft-example{background:white;border:1px solid var(--border);border-radius:3px;padding:12px 15px;margin:12px 0}
+#measurement-tool .ft-lesson details{border-top:1px solid var(--border);padding-top:14px;margin-top:20px}
+#measurement-tool .ft-lesson summary{cursor:pointer;font-weight:650;color:#316a73}
+#measurement-tool .ft-lesson .ft-muted{font-size:12px;color:var(--muted)}
+@media(max-width:780px){#measurement-tool .layout{grid-template-columns:1fr}#measurement-tool{padding:22px 18px 45px}#measurement-tool .panel{padding:17px}}
+
+#measurement-tool .tool-intro{padding-top:26px;border-bottom:4px solid #293d43}
+#measurement-tool .tool-intro .eyebrow{position:relative;display:inline-block;padding-left:17px;color:#365c63;font-weight:800}
+#measurement-tool .tool-intro .eyebrow:before{content:"";position:absolute;left:0;top:1px;bottom:1px;width:5px;background:#438691;border-radius:5px}
+#measurement-tool .tool-intro h1{font-weight:800;letter-spacing:-.052em}
+#measurement-tool .panel{border:1px solid #c8d9dc!important;border-radius:24px 24px 0 0!important;overflow:hidden;background:#f9fbfb!important}
+#measurement-tool .panel h2{font-weight:800;color:#293e44;position:relative;padding-left:15px}
+#measurement-tool .panel h2:before{content:"";position:absolute;left:0;top:3px;bottom:3px;width:4px;border-radius:6px;background:#438691}
+#measurement-tool .metric strong{font-weight:800}
+#measurement-tool .ft-lesson{background:#f7f9fa!important;border:1px solid #c8d9dc!important;border-radius:26px 26px 0 0!important;padding:clamp(25px,4.5vw,56px)!important;margin:48px 0 34px!important}
+#measurement-tool .ft-lesson h3{font-size:clamp(23px,3vw,31px);letter-spacing:-.025em;margin-bottom:20px;font-weight:800;color:#293e44}
+#measurement-tool .ft-lesson h4{font-size:15px;letter-spacing:.015em;padding:18px 0 12px;border-top:1px solid #cbd8da;margin-top:28px}
+#measurement-tool .ft-lesson h4:before{content:"";display:inline-block;width:5px;height:19px;background:#438691;border-radius:8px;vertical-align:-4px;margin-right:12px}
+#measurement-tool .ft-lesson .ft-eqn{background:#eef3f4!important;border-left:5px solid #438691!important;border-radius:0!important;text-align:left;padding:22px 24px;font-weight:650}
+#measurement-tool .ft-lesson .ft-example{background:#fff;border:1px solid #cbd8da;border-top:4px solid #438691;padding:22px 25px;border-radius:18px 18px 0 0!important}
+#measurement-tool .tablewrap{max-height:390px;overflow:auto;border:1px solid #d5e0e2;margin-top:18px}
+#measurement-tool table{width:100%;border-collapse:collapse;font-size:14px}
+#measurement-tool th,#measurement-tool td{text-align:left;padding:10px 12px;border-bottom:1px solid #d5e0e2}
+#measurement-tool th{position:sticky;top:0;background:#eef3f4;color:#293e44;z-index:1}
+#measurement-tool tr.active{background:#e7f1f2}
+#measurement-tool tr.active td:first-child{border-left:4px solid #438691}
+#measurement-tool .fieldgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 18px}
+#measurement-tool .fieldgrid input{width:100%!important}
+#measurement-tool input[type=text]{padding:9px;border:1px solid #c9d6d9;border-radius:3px;background:#fff;color:#263338;font:inherit;width:100%}
+#measurement-tool .readout{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+#measurement-tool .status{font-size:12px;color:#62767c;min-height:20px}
+#measurement-tool .layout{grid-template-columns:minmax(260px,330px) minmax(0,1fr)}
+#measurement-tool .panel h3{margin-bottom:12px}
+#measurement-tool .sectiontitle{margin:22px 0 0;font-size:17px;font-weight:700}
+@media(min-width:781px){#measurement-tool{max-width:1320px;padding:44px clamp(44px,5vw,82px) 86px}}
+@media(max-width:780px){#measurement-tool{padding:28px 24px 60px}}
+@media(max-width:600px){#measurement-tool .ft-lesson{border-radius:20px 20px 0 0!important}}
+@media(max-width:440px){#measurement-tool{padding:24px 20px 52px}#measurement-tool .fieldgrid{grid-template-columns:1fr}}
+</style></head><body><header><div class="header-inner"><a class="brand" href="/">ADAM HAWK<span>DESIGN &amp; FABRICATION TOOLS</span></a><nav class="topnav"><a href="/">← All Tools</a><a href="https://adamhawk.com" rel="noopener" target="_blank">Artist Website ↗</a></nav></div></header><main id="measurement-tool" class="tool"><div class="tool-intro"><p class="eyebrow">CONVERSION TOOLS / LENGTH</p><h1>Length & Measurement <span>Converter</span></h1><p>Convert instantly between metric and imperial length measurements, including fractional inches.</p></div><section class="ft-lesson" aria-label="How the Calculation Works"><h3>How the Calculation Works</h3><h4>1. Enter a measurement</h4><p>Enter a value in any unit field. The converter uses millimeters as its internal common unit, then updates the remaining fields.</p><h4>2. Apply exact unit relationships</h4><div class="ft-eqn">1 inch = 25.4 mm &nbsp; · &nbsp; 1 foot = 12 inches</div><div class="ft-eqn">1 cm = 10 mm &nbsp; · &nbsp; 1 meter = 1000 mm</div><div class="ft-example"><p><strong>Example:</strong> 1½ inches = 38.1 mm = 3.81 cm = 0.0381 m.</p></div><h4>3. Round fractional inches</h4><p>The fractional display rounds the calculated decimal-inch value to the selected fraction denominator. Other unit fields retain their independent decimal conversions.</p><p class="ft-muted">Fractional values are approximations at the selected precision. The decimal unit conversions use exact conversion factors.</p></section><div class="layout"><section class="panel"><h3>Metric Measurements</h3><div class="fieldgrid"><div><label for="lcMM">Millimeters (mm)</label><input id="lcMM" type="number" step="any"></div><div><label for="lcCM">Centimeters (cm)</label><input id="lcCM" type="number" step="any"></div><div><label for="lcM">Meters (m)</label><input id="lcM" type="number" step="any"></div></div><h3 style="margin-top:30px">Imperial Measurements</h3><div class="fieldgrid"><div><label for="lcIN">Decimal inches (in)</label><input id="lcIN" type="number" step="any"></div><div><label for="lcFT">Feet (ft)</label><input id="lcFT" type="number" step="any"></div><div><label for="lcYD">Yards (yd)</label><input id="lcYD" type="number" step="any"></div></div></section><section class="panel"><h3>Fractional Inches</h3><label for="lcFraction">Enter fractional inches</label><input id="lcFraction" type="text" placeholder="3/8, 1 1/2, 2-3/4"><label for="lcPrecision">Fractional precision</label><select id="lcPrecision"><option value="8">Nearest 1/8&quot;</option><option value="16">Nearest 1/16&quot;</option><option value="32">Nearest 1/32&quot;</option><option value="64" selected>Nearest 1/64&quot;</option><option value="128">Nearest 1/128&quot;</option></select><div class="results" style="margin-top:20px"><div class="metric primary"><span>Nearest fractional inch</span><strong id="lcResult">1&quot;</strong></div><div class="metric"><span>Decimal inches</span><strong id="lcDecimal">1.000000</strong></div></div><p id="lcStatus" class="status" aria-live="polite"></p><button id="lcReset" type="button">Reset Calculator</button><p class="note">Fractional precision changes the displayed approximation, not the underlying measurement.</p></section></div></main><footer><div class="footer-inner"><span>© <span class="year">2026</span> Adam Hawk · Design &amp; Fabrication Tools</span><a href="/">← Back to All Tools</a></div></footer><script>document.querySelectorAll('.year').forEach(x=>x.textContent=new Date().getFullYear());</script><script>(function(){"use strict";const root=document.getElementById('measurement-tool');const factors={mm:1,cm:10,m:1000,in:25.4,ft:304.8,yd:914.4};const ids={mm:'lcMM',cm:'lcCM',m:'lcM',in:'lcIN',ft:'lcFT',yd:'lcYD'};const fields={};Object.keys(ids).forEach(k=>fields[k]=root.querySelector('#'+ids[k]));const fraction=root.querySelector('#lcFraction'),precision=root.querySelector('#lcPrecision'),result=root.querySelector('#lcResult'),decimal=root.querySelector('#lcDecimal'),status=root.querySelector('#lcStatus');let current=25.4;function gcd(a,b){while(b){let t=b;b=a%b;a=t}return a}function fmt(v){return Number(v.toPrecision(12)).toString()}function mixed(v,d){let n=Math.round(Math.abs(v)*d),whole=Math.floor(n/d),r=n%d;if(!r)return (v<0&&n?'-':'')+whole+'"';let div=gcd(r,d);return(v<0?'-':'')+(whole?whole+' ':'')+(r/div)+'/'+(d/div)+'"'}function parse(s){s=s.trim().replace(/["″]/g,'').replace(/[−–]/g,'-');if(!s)return null;if(/^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(s))return Number(s);let m=s.match(/^([+-]?\d+)\s*[- ]\s*(\d+)\s*\/\s*(\d+)$/);if(m){let d=+m[3];return d?Math.sign(+m[1])*(Math.abs(+m[1])+(+m[2])/d):null}m=s.match(/^([+-]?)\s*(\d+)\s*\/\s*(\d+)$/);if(m){let d=+m[3];return d?(m[1]==='-'?-1:1)*(+m[2])/d:null}return null}function render(mm,source){if(!Number.isFinite(mm)){status.textContent='Enter a valid measurement.';return}current=mm;Object.keys(fields).forEach(k=>{if(k!==source)fields[k].value=fmt(mm/factors[k])});if(source!=='fraction')fraction.value='';let d=+precision.value;result.textContent=mixed(mm/25.4,d);decimal.textContent=fmt(mm/25.4)+' in';status.textContent='Fraction rounded to nearest 1/'+d+' inch.'}Object.keys(fields).forEach(k=>fields[k].addEventListener('input',function(){if(this.value.trim()===''){status.textContent='Enter a measurement.';return}render(Number(this.value)*factors[k],k)}));fraction.addEventListener('input',function(){if(!this.value.trim()){status.textContent='Enter a fraction.';return}let v=parse(this.value);if(v===null){status.textContent='Enter a valid fraction such as 3/8, 1 1/2, or 2-3/4.';return}render(v*25.4,'fraction')});precision.addEventListener('change',()=>{result.textContent=mixed(current/25.4,+precision.value);status.textContent='Fraction rounded to nearest 1/'+precision.value+' inch.'});root.querySelector('#lcReset').addEventListener('click',()=>{precision.value='64';render(25.4,'reset')});render(25.4,'reset')})();</script></body></html>
